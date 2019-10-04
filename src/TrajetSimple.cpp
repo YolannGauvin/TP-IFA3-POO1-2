@@ -24,21 +24,23 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 const char * TrajetSimple::VilleDepart () const 
-// Algorithme
+// Algorithme : Aucun
 {
-    return nullptr;
+    return _villeDepart;
 } //----- Fin de VilleDepart
 
 const char * TrajetSimple::VilleArrivee () const
-// Algorithme
+// Algorithme : Aucun
 {
-    return nullptr;
+    return _villeArrivee;
 } //----- Fin de VilleArrivee
 
 void TrajetSimple::Afficher () const
-// Algorithme
+// Algorithme : Aucun
 {
-
+    cout << "De " << _villeDepart 
+        << " à " << _villeArrivee
+        << " en " << _moyenDeTransport;
 } //----- Fin de Afficher
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -48,22 +50,21 @@ TrajetSimple::TrajetSimple (
     const char * laVilleDepart,
     const char * laVilleArrivee,
     moyenDeTransport leMoyenDeTransport
-) : Trajet()
-// Algorithme :
-//
+) : Trajet(), _villeDepart(laVilleDepart), 
+    _villeArrivee(laVilleArrivee), 
+    _moyenDeTransport(leMoyenDeTransport)
+// Algorithme : Aucun
 {
 #ifdef MAP
     cout << "Appel au constructeur de <TrajetSimple> (" 
         << laVilleDepart << " -> "
         << laVilleArrivee << ","
         << leMoyenDeTransport << ")" << endl;
-
 #endif
 } //----- Fin de TrajetSimple
 
 TrajetSimple::~TrajetSimple ( )
-// Algorithme :
-//
+// Algorithme : Aucun
 {
 #ifdef MAP
     cout << "Appel au destructeur de <TrajetSimple>" << endl;
