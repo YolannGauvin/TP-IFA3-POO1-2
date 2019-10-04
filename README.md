@@ -1,3 +1,11 @@
+# Makefile rules
+
+```makefile
+make debug # options -g and -D MAP and create `debug` binary file
+make release # no debug options and create `release` binary file
+make clean # erase executable and obj files
+```
+
 # Spécification techniques de chaque méthode
 
 ```cpp
