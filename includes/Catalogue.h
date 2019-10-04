@@ -45,11 +45,9 @@ public:
     // Format d'affichage :
     // {num} - {trajet.Affichage()}
 
-    void Rechercher ( 
+    CollectionTrajets * Rechercher ( 
         const char * villeDepart, 
-        const char * villeArrivee,
-        Trajet * trajets[],
-        unsigned int * nbTrajetsTrouves ) const;
+        const char * villeArrivee) const;
     // Mode d'emploi :
     // Retourne tous les trajet dont la ville de départ 
     // et la ville d’arrivée sont celles données en paramètre.

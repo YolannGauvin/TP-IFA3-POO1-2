@@ -40,7 +40,7 @@ void TrajetSimple::Afficher () const
 {
     cout << "De " << _villeDepart 
         << " à " << _villeArrivee
-        << " en " << _moyenDeTransport;
+        << " en " << _moyenDeTransport << endl;
 } //----- Fin de Afficher
 
 //------------------------------------------------- Surcharge d'opérateurs

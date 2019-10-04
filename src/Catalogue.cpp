@@ -12,6 +12,7 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <cstring>
 
 //------------------------------------------------------ Include personnel
 #include "../includes/Catalogue.h"
@@ -26,31 +27,47 @@ using namespace std;
 void Catalogue::AjouterTrajet ( const Trajet * t )
 // Algorithme :
 {
-
+    _trajets.AjouterTrajet(t);
 } //----- Fin de AjouterTrajet
 
 void Catalogue::Afficher () const
-// Algorithme :
+// Algorithme : boucle sur tous les trajets et invoque pour chacun
+// sa méthode d'affichage.
 {
-
+    for (unsigned int i = 1; i <= _trajets.NombreDeTrajets(); i++)
+    {
+        cout << i << " - ";
+         _trajets.TrajetNumero(i)->Afficher();
+    }
 } //----- Fin de Afficher
 
-void Catalogue::Rechercher ( 
+CollectionTrajets * Catalogue::Rechercher ( 
     const char * villeDepart,
-    const char * villeArrivee,
-    Trajet * trajetsTrouves[],
-    unsigned int * nbTrajetsTrouves ) const
-// Algorithme :
+    const char * villeArrivee) const
+// Algorithme : Boucle sur tous les trajet du catalogue et ajoute le trajet
+// dans la collection si la ville de départ et la ville d'arrivée
+// sont les mêmes
 {
+    CollectionTrajets * trajetsTrouves = new CollectionTrajets();
+    
+    for (unsigned int i = 1; i <= _trajets.NombreDeTrajets(); i++)
+    {
+        const Trajet * trajetCourant = _trajets.TrajetNumero(i);
+        if (strcmp(trajetCourant->VilleDepart(), villeDepart) == 0
+        && strcmp(trajetCourant->VilleArrivee(), villeArrivee) == 0)
+        {
+            trajetsTrouves->AjouterTrajet(trajetCourant);
+        }
+    }
 
+    return trajetsTrouves;
 } //----- Fin de Rechercher
 
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
-Catalogue::Catalogue ( )
-// Algorithme :
-//
+Catalogue::Catalogue () : _trajets()
+// Algorithme : Aucun
 {
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <Catalogue>" << endl;
@@ -58,8 +75,7 @@ Catalogue::Catalogue ( )
 } //----- Fin de Catalogue
 
 Catalogue::~Catalogue ( )
-// Algorithme :
-//
+// Algorithme : Aucun
 {
 #ifdef MAP
     cout << "Appel au destructeur de <Catalogue>" << endl;

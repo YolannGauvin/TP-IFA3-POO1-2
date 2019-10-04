@@ -26,7 +26,7 @@ Format d’affichage :
 
 
 ```cpp
-void Rechercher (const char * villeDepart, const char * villeArrivee, Trajet * trajetsTrouves[], unsigned int * nbTrajetsTrouves) const;
+CollectionTrajets * Rechercher (const char * villeDepart, const char * villeArrivee) const;
 ```
 Retourne tous les trajet dont la ville de départ et la ville d’arrivée sont celles données en paramètre.
 Le tableau trajetsTrouves sera alloué dynamiquement dans la méthode et devra donc être libérés plus tard dans le programme en dehors de celle-ci.
@@ -113,7 +113,7 @@ La collection est vide et par conséquent la taille courante est de 0.
 Les éléments sont ordonnés par ordre d'ajout grâce à la méthode AjouterTrajet.
 
 ```cpp
-CollectionTrajets ( Trajet* trajets[], unsigned int nbTrajets);
+CollectionTrajets ( Trajet** trajets, unsigned int nbTrajets);
 ```
 Construit un suite ordonnée de trajets à partir des nbTrajets premiers éléments significatifs du tableau trajets.
 La collection est pleine (NombreDeTrajets = taille max)
