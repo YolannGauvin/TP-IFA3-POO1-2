@@ -29,7 +29,7 @@ Format d’affichage :
 CollectionTrajets * Rechercher (const char * villeDepart, const char * villeArrivee) const;
 ```
 Retourne tous les trajet dont la ville de départ et la ville d’arrivée sont celles données en paramètre.
-Le tableau trajetsTrouves sera alloué dynamiquement dans la méthode et devra donc être libérés plus tard dans le programme en dehors de celle-ci.
+La collection trajetsTrouves sera alloué dynamiquement dans la méthode et devra donc être libérés plus tard dans le programme en dehors de celle-ci.
 ```cpp
 class Trajet;
 ```
