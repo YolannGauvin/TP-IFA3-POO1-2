@@ -26,18 +26,24 @@ using namespace std;
 const char * TrajetCompose::VilleDepart () const
 // Algorithme :
 {
-    return nullptr;
+    return this->VilleDepart;
 } //----- Fin de VilleDepart
 
 const char * TrajetCompose::VilleArrivee () const
 // Algorithme :
 {
-    return nullptr;
+     return this->VilleArrivee;
 } //----- Fin de VilleArrivee
 
 void TrajetCompose::Afficher () const
 // Algorithme :
 {
+    // afficher tous le trajets
+
+    for(int i = 0; i < this-> _trajets.NombreDeTrajets ; i++)
+    {
+        //_trajets.getElements[i]->afficher();
+    }
     
 } //----- Fin de Afficher
 
@@ -48,10 +54,17 @@ TrajetCompose::TrajetCompose ( Trajet** trajets, unsigned int nbTrajets )
 // Algorithme :
 //
 {
-#ifdef MAP
-    cout << "Appel au constructeur de <TrajetCompose> (nbTrajets : " 
-        << nbTrajets << ")" << endl;
-#endif
+
+    // construire CollectionTrajet
+    //this->_trajets->setNbElementMax();
+    //this->_trajets.setElements(trajets);
+    
+
+
+    #ifdef MAP
+        cout << "Appel au constructeur de <TrajetCompose> (nbTrajets : " 
+            << nbTrajets << ")" << endl;
+    #endif
 } //----- Fin de TrajetCompose
 
 TrajetCompose::~TrajetCompose ( )

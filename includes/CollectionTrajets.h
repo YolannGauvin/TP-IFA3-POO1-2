@@ -13,7 +13,7 @@
 #include "Trajet.h"
 
 //------------------------------------------------------------- Constantes
-
+const unsigned int TAILLEMAX = 10;
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
@@ -90,7 +90,9 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
-    Trajet** elements;
+    Trajet** _elements;
+    unsigned int _nbElementMax;
+    unsigned int _nbElementCourant;
 };
 
 //--------------------------- Autres définitions dépendantes de <CollectionTrajets>
