@@ -52,13 +52,13 @@ CollectionTrajets::CollectionTrajets ( )
 #endif
 } //----- Fin de CollectionTrajets
 
-CollectionTrajets::CollectionTrajets ( Trajet** trajets, unsigned int nbTrajets)
+CollectionTrajets::CollectionTrajets ( const CollectionTrajets & source )
 // Algorithme :
 //
 {
 #ifdef MAP
     cout << "Appel au constructeur de <CollectionTrajets> (nbTrajets : " 
-        << nbTrajets << ")" << endl;
+        << source.NombreDeTrajets() << ")" << endl;
 #endif
 } //----- Fin de CollectionTrajets
 

@@ -23,7 +23,7 @@
 // les autres. La ville d'arrivée d'un trajet doit être la ville de départ
 // du trajet suivant.
 //------------------------------------------------------------------------
-class TrajetCompose
+class TrajetCompose : public Trajet
 {
 //----------------------------------------------------------------- PUBLIC
 
@@ -45,14 +45,11 @@ public:
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
-    TrajetCompose ( Trajet** trajets, unsigned int nbTrajets );
+    TrajetCompose ( CollectionTrajets composants );
     // Mode d'emploi :
     // Constructeur de la classe <TrajetCompose>.
-    // Construit un trajet à partir des nbTrajets premiers éléments
-    // significatifs du tableau trajets.
-    //
-    // Contrat de cohérence :
-    // Les nbTrajets premiers éléments de trajets sont significatifs.
+    // Construit un trajet à partir d'une copie profonde d'une collection
+    // de trajets.
 
     virtual ~TrajetCompose ( );
     // Mode d'emploi :

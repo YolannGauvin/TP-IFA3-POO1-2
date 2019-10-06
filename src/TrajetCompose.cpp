@@ -44,13 +44,13 @@ void TrajetCompose::Afficher () const
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
-TrajetCompose::TrajetCompose ( Trajet** trajets, unsigned int nbTrajets )
+TrajetCompose::TrajetCompose ( CollectionTrajets composants )
 // Algorithme :
 //
 {
 #ifdef MAP
     cout << "Appel au constructeur de <TrajetCompose> (nbTrajets : " 
-        << nbTrajets << ")" << endl;
+        << composants.NombreDeTrajets() << ")" << endl;
 #endif
 } //----- Fin de TrajetCompose
 
