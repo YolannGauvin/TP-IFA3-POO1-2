@@ -86,7 +86,8 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
-    Trajet** elements;
+    Trajet** _elements;
+    unsigned int _nbElements; 
 };
 
 //--------------------------- Autres définitions dépendantes de <CollectionTrajets>
