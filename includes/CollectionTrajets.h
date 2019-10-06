@@ -69,16 +69,12 @@ public:
     // Les éléments sont ordonnés par ordre d'ajout grâce à la méthode
     // AjouterTrajet.
 
-    CollectionTrajets ( Trajet** trajets, unsigned int nbTrajets );
+    CollectionTrajets ( const CollectionTrajets & source );
     // Mode d'emploi :
     // Constructeur par copie de la classe <CollectionTrajets>
-    // Construit une suite ordonnée de trajets à partir des nbTrajets
-    // premiers éléments significatifs du tableau trajets. La collection
-    // est pleine au sens où la taille courante donnée par la méthode
-    // NombreDeTrajets est égale à la taille max du tableau dynamique.
-    //
-    // Contrat de cohérence :
-    // Les nbTrajets premiers éléments du tableau trajet sont significatifs.
+    // Construit une collection pleine à partir d'une autre collection.
+    // Sa taille courante est la même que la taille de la collection
+    // passée en paramètre.
 
     virtual ~CollectionTrajets ( );
     // Mode d'emploi :

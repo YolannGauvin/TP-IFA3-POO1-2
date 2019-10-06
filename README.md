@@ -89,9 +89,11 @@ class TrajetCompose : public Trajet;
 ```
 
 ```cpp
-TrajetCompose ( Trajet* trajets[], unsigned int nbTrajets ) ;
+TrajetCompose ( CollectionTrajets composants ) ;
 ```
-// A définir
+Constructeur de la classe TrajetCompose.
+Construit un trajet à partir d'une copie profonde d'une collection
+de trajets.
 
 ```cpp
 virtual const char * VilleDepart () const;
@@ -121,12 +123,11 @@ La collection est vide et par conséquent la taille courante est de 0.
 Les éléments sont ordonnés par ordre d'ajout grâce à la méthode AjouterTrajet.
 
 ```cpp
-CollectionTrajets ( Trajet** trajets, unsigned int nbTrajets);
+CollectionTrajets ( const CollectionTrajets & source );
 ```
-Construit un suite ordonnée de trajets à partir des nbTrajets premiers éléments significatifs du tableau trajets.
-La collection est pleine (NombreDeTrajets = taille max)
-Contrat de cohérence :
-Les nbTrajets premiers éléments de trajets sont significatifs
+Constructeur par copie de la classe CollectionTrajets
+Construit une collection pleine à partir d'une autre collection.
+Sa taille courante est la même que la taille de la collection passée en paramètre.
 
 ```cpp
 void AjouterTrajet (const Trajet * trajet);

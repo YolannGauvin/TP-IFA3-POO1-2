@@ -12,6 +12,7 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <cstring>
 
 //------------------------------------------------------ Include personnel
 #include "../includes/TrajetSimple.h"
@@ -50,9 +51,7 @@ TrajetSimple::TrajetSimple (
     const char * laVilleDepart,
     const char * laVilleArrivee,
     moyenDeTransport leMoyenDeTransport
-) : Trajet(), _villeDepart(laVilleDepart), 
-    _villeArrivee(laVilleArrivee), 
-    _moyenDeTransport(leMoyenDeTransport)
+) : Trajet(), _moyenDeTransport(leMoyenDeTransport)
 // Algorithme : Aucun
 {
 #ifdef MAP
@@ -61,6 +60,10 @@ TrajetSimple::TrajetSimple (
         << laVilleArrivee << ","
         << leMoyenDeTransport << ")" << endl;
 #endif
+    char * _villeDepart = new char[strlen(laVilleDepart) + 1];
+    char * _villeArrivee = new char[strlen(laVilleArrivee) + 1];
+    strcpy(_villeDepart, laVilleDepart);
+    strcpy(_villeArrivee, laVilleArrivee);
 } //----- Fin de TrajetSimple
 
 TrajetSimple::~TrajetSimple ( )
@@ -69,6 +72,8 @@ TrajetSimple::~TrajetSimple ( )
 #ifdef MAP
     cout << "Appel au destructeur de <TrajetSimple>" << endl;
 #endif
+    delete[] _villeDepart;
+    delete[] _villeArrivee;
 } //----- Fin de ~TrajetSimple
 
 //------------------------------------------------------------------ PRIVE

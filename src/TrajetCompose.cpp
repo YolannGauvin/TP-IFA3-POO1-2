@@ -50,7 +50,7 @@ void TrajetCompose::Afficher () const
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
-TrajetCompose::TrajetCompose ( Trajet** trajets, unsigned int nbTrajets )
+TrajetCompose::TrajetCompose ( CollectionTrajets composants )
 // Algorithme :
 //
 {
@@ -60,11 +60,10 @@ TrajetCompose::TrajetCompose ( Trajet** trajets, unsigned int nbTrajets )
     //this->_trajets.setElements(trajets);
     
 
-
-    #ifdef MAP
-        cout << "Appel au constructeur de <TrajetCompose> (nbTrajets : " 
-            << nbTrajets << ")" << endl;
-    #endif
+#ifdef MAP
+    cout << "Appel au constructeur de <TrajetCompose> (nbTrajets : " 
+        << composants.NombreDeTrajets() << ")" << endl;
+#endif
 } //----- Fin de TrajetCompose
 
 TrajetCompose::~TrajetCompose ( )
