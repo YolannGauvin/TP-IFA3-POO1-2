@@ -26,7 +26,7 @@ void CollectionTrajets::AjouterTrajet ( const Trajet * trajet )
 // Algorithme :
 {
     
-} // 
+} // Fin de AjouterTrajet
 
 unsigned int CollectionTrajets::NombreDeTrajets () const
 // Algorithme :

@@ -201,7 +201,7 @@ int main ()
         cout << "\t2. Ajouter un trajet simple" << endl;
         cout << "\t3. Ajouter un trajet composé" << endl;
         cout << "\t4. Rechercher un trajet" << endl;
-        cout << "\t5. Quitter" << endl;
+        cout << "\t0. Quitter" << endl;
         cin >> choixMenu;
 
         switch (choixMenu)
