@@ -53,7 +53,7 @@ void CollectionTrajets::AjouterTrajet ( const Trajet * trajet )
 unsigned int CollectionTrajets::NombreDeTrajets () const
 // Algorithme :
 {
-    return this->_nbElementCourant;
+    return _nbElementCourant;
 }
 
 const Trajet * CollectionTrajets::TrajetNumero ( unsigned int numero ) const
@@ -65,14 +65,13 @@ const Trajet * CollectionTrajets::TrajetNumero ( unsigned int numero ) const
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
-CollectionTrajets::CollectionTrajets ( const CollectionTrajets & source)
+CollectionTrajets::CollectionTrajets ( const CollectionTrajets & source ) : 
+    _elements (new const Trajet*[source._nbElementCourant]),
+    _nbElementMax (source._nbElementMax),
+    _nbElementCourant (source._nbElementCourant)
 // Algorithme :
-{
-    _nbElementMax = source._nbElementMax;
-    _nbElementCourant = source._nbElementCourant;
-    _elements = new const Trajet*[_nbElementMax];
-    
-    for (unsigned int i = 0; i < _nbElementCourant; i++)
+{   
+    for (unsigned int i (0); i < _nbElementCourant; i++)
     {
         _elements[i] = source._elements[i];
     }
@@ -82,13 +81,12 @@ CollectionTrajets::CollectionTrajets ( const CollectionTrajets & source)
 #endif
 } //----- Fin de CollectionTrajets
 
-CollectionTrajets::CollectionTrajets ( )
+CollectionTrajets::CollectionTrajets () :
+    _elements (new const Trajet*[TAILLE_MAX]),
+    _nbElementMax (TAILLE_MAX),
+    _nbElementCourant (0)
 // Algorithme :
-{
-    _nbElementMax = TAILLEMAX;
-    _nbElementCourant = 0;
-    _elements = new const Trajet*[_nbElementMax];
-    
+{   
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <CollectionTrajets>" << endl;
 #endif

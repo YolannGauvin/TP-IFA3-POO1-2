@@ -137,7 +137,7 @@ static void ajouterTrajetCompose ( Catalogue & leCatalogue )
     
     while (true)
     {
-        cout << "Ville suivante : (`stop` pour arrêter)";
+        cout << "Ville suivante : (`stop` pour arrêter)" << endl;
         cin >> villeArrivee;
 
         if (strcmp(villeArrivee, "stop") == 0)
@@ -172,11 +172,12 @@ static void rechercherTrajet ( Catalogue & leCatalogue )
     cout << "Ville d'arrivée :" << endl;
     cin >> villeArrivee;
 
-    CollectionTrajets * trajetsTrouves = 
-        leCatalogue.Rechercher(villeDepart, villeArrivee);
+    CollectionTrajets * trajetsTrouves (
+        leCatalogue.Rechercher(villeDepart, villeArrivee)
+    );
 
     cout << "Résultat : " << endl;
-    for (unsigned int i = 1; i <= trajetsTrouves->NombreDeTrajets(); i++)
+    for (unsigned int i (1); i <= trajetsTrouves->NombreDeTrajets(); i++)
     {
         trajetsTrouves->TrajetNumero(i)->Afficher();
         cout << endl;
@@ -200,9 +201,9 @@ static void rechercherCompletTrajet ( Catalogue & leCatalogue )
     leCatalogue.RechercherComplet(villeDepart, villeArrivee, trajetsTrouves, nbTrajetsTrouves);
 
     cout << "Résultat : " << endl;
-    for (unsigned int i = 0; i < nbTrajetsTrouves; i++)
+    for (unsigned int i (0); i < nbTrajetsTrouves; i++)
     {
-        for (unsigned int j = 1; j <= trajetsTrouves[i].NombreDeTrajets(); j++)
+        for (unsigned int j (1); j <= trajetsTrouves[i].NombreDeTrajets(); j++)
         {
             trajetsTrouves[i].TrajetNumero(j)->Afficher();
         }

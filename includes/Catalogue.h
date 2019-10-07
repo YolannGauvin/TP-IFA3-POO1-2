@@ -61,6 +61,7 @@ public:
         const char * villeArrivee,
         CollectionTrajets *& _trajets,
         unsigned int & nbTrajets ) const;
+    // A définir
 
 //------------------------------------------------- Surcharge d'opérateurs
 

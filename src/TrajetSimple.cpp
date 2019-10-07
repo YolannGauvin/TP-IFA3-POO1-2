@@ -51,7 +51,10 @@ TrajetSimple::TrajetSimple (
     const char * laVilleDepart,
     const char * laVilleArrivee,
     moyenDeTransport leMoyenDeTransport
-) : Trajet(), _moyenDeTransport(leMoyenDeTransport)
+) : Trajet(),
+    _villeDepart (new char[strlen(laVilleDepart) + 1]),
+    _villeArrivee (new char[strlen(laVilleDepart) + 1]),
+    _moyenDeTransport (leMoyenDeTransport)
 // Algorithme : Aucun
 {
 #ifdef MAP
@@ -60,8 +63,6 @@ TrajetSimple::TrajetSimple (
         << laVilleArrivee << ","
         << leMoyenDeTransport << ")" << endl;
 #endif
-    _villeDepart = new char[strlen(laVilleDepart) + 1];
-    _villeArrivee = new char[strlen(laVilleArrivee) + 1];
     strcpy(_villeDepart, laVilleDepart);
     strcpy(_villeArrivee, laVilleArrivee);
 } //----- Fin de TrajetSimple

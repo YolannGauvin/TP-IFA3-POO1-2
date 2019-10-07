@@ -34,7 +34,7 @@ void Catalogue::Afficher () const
 // Algorithme : boucle sur tous les trajets et invoque pour chacun
 // sa méthode d'affichage.
 {
-    for (unsigned int i = 1; i <= _trajets.NombreDeTrajets(); i++)
+    for (unsigned int i (1); i <= _trajets.NombreDeTrajets(); i++)
     {
         cout << i << " - ";
         _trajets.TrajetNumero(i)->Afficher();
@@ -49,9 +49,9 @@ CollectionTrajets * Catalogue::Rechercher (
 // dans la collection si la ville de départ et la ville d'arrivée
 // sont les mêmes
 {
-    CollectionTrajets * trajetsTrouves = new CollectionTrajets();
+    CollectionTrajets * trajetsTrouves (new CollectionTrajets());
     
-    for (unsigned int i = 1; i <= _trajets.NombreDeTrajets(); i++)
+    for (unsigned int i (1); i <= _trajets.NombreDeTrajets(); i++)
     {
         const Trajet * trajetCourant = _trajets.TrajetNumero(i);
         if (strcmp(trajetCourant->VilleDepart(), villeDepart) == 0
@@ -70,10 +70,10 @@ void Catalogue::RechercherComplet (
     CollectionTrajets *& trajetsTrouves,
     unsigned int & nbTrajetsTrouves ) const
 {
-    const unsigned int TAILLE_MAX_DEF = 50;
-    unsigned int tailleMaxTrajets = TAILLE_MAX_DEF;
+    const unsigned int TAILLE_MAX_DEF (50);
+    unsigned int tailleMaxTrajets (TAILLE_MAX_DEF);
+    const Trajet** uneCombinaison (new const Trajet*[_trajets.NombreDeTrajets()]);
     trajetsTrouves = new CollectionTrajets[tailleMaxTrajets];
-    const Trajet** uneCombinaison = new const Trajet*[_trajets.NombreDeTrajets()];
     nbTrajetsTrouves = 0;
 
     combinaison(villeDepart, villeArrivee, 1, true, uneCombinaison, 0, trajetsTrouves, tailleMaxTrajets, nbTrajetsTrouves);
@@ -96,7 +96,7 @@ Catalogue::Catalogue () : _trajets()
 Catalogue::~Catalogue ( )
 // Algorithme : Aucun
 {
-    for(unsigned int i = 1; i <= _trajets.NombreDeTrajets(); i++)
+    for(unsigned int i (1); i <= _trajets.NombreDeTrajets(); i++)
     {
         delete _trajets.TrajetNumero(i);
     }

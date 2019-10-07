@@ -13,7 +13,7 @@
 #include "Trajet.h"
 
 //------------------------------------------------------------- Constantes
-const unsigned int TAILLEMAX = 10;
+const unsigned int TAILLE_MAX = 10;
 const unsigned int FACTEUR_AJUSTEMENT = 2;
 //------------------------------------------------------------------ Types
 

@@ -32,19 +32,18 @@ const char * TrajetCompose::VilleDepart () const
 const char * TrajetCompose::VilleArrivee () const
 // Algorithme :
 {
-    return _trajets.TrajetNumero(_trajets.NombreDeTrajets() )->VilleArrivee();
+    return _trajets.TrajetNumero(_trajets.NombreDeTrajets())->VilleArrivee();
 
 } //----- Fin de VilleArrivee
 
 void TrajetCompose::Afficher () const
 // Algorithme :
 {
-    // afficher tous le trajets
     if (_trajets.NombreDeTrajets() >= 1)
     {
         _trajets.TrajetNumero(1)->Afficher();
         
-        for(unsigned int i = 2; i <= this-> _trajets.NombreDeTrajets() ; i++)
+        for(unsigned int i (2); i <= this-> _trajets.NombreDeTrajets() ; i++)
         {
             cout << " - ";
             _trajets.TrajetNumero(i)->Afficher();
@@ -57,9 +56,9 @@ void TrajetCompose::Afficher () const
 
 //-------------------------------------------- Constructeurs - destructeur
 TrajetCompose::TrajetCompose ( const CollectionTrajets & composants ) :
-    _trajets(composants)
+    Trajet (),
+    _trajets (composants)
 // Algorithme :
-//
 {
 #ifdef MAP
     cout << "Appel au constructeur de <TrajetCompose> (nbTrajets : " 
@@ -69,9 +68,8 @@ TrajetCompose::TrajetCompose ( const CollectionTrajets & composants ) :
 
 TrajetCompose::~TrajetCompose ( )
 // Algorithme :
-//
 {
-    for(unsigned int i = 1; i <= _trajets.NombreDeTrajets(); i++)
+    for(unsigned int i (1); i <= _trajets.NombreDeTrajets(); i++)
     {
         delete _trajets.TrajetNumero(i);
     }
