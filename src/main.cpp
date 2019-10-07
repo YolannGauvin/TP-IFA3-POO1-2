@@ -185,6 +185,33 @@ static void rechercherTrajet ( Catalogue & leCatalogue )
     delete trajetsTrouves;
 }
 
+static void rechercherCompletTrajet ( Catalogue & leCatalogue )
+{
+    char villeDepart[TAILLE_MAX_VILLE + 1];
+    char villeArrivee[TAILLE_MAX_VILLE + 1];
+    cout << "Ville de départ :" << endl;
+    cin >> villeDepart;
+    cout << "Ville d'arrivée :" << endl;
+    cin >> villeArrivee;
+
+    CollectionTrajets * trajetsTrouves;
+    unsigned int nbTrajetsTrouves;
+
+    leCatalogue.RechercherComplet(villeDepart, villeArrivee, trajetsTrouves, nbTrajetsTrouves);
+
+    cout << "Résultat : " << endl;
+    for (unsigned int i = 0; i < nbTrajetsTrouves; i++)
+    {
+        for (unsigned int j = 1; j <= trajetsTrouves[i].NombreDeTrajets(); j++)
+        {
+            trajetsTrouves[i].TrajetNumero(j)->Afficher();
+        }
+        cout << endl;
+    }
+
+    delete[] trajetsTrouves;
+}
+
 //////////////////////////////////////////////////////////////////  PUBLIC
 
 //---------------------------------------------------- Fonctions publiques
@@ -200,6 +227,7 @@ int main ()
         cout << "\t2. Ajouter un trajet simple" << endl;
         cout << "\t3. Ajouter un trajet composé" << endl;
         cout << "\t4. Rechercher un trajet" << endl;
+        cout << "\t5. Rechercher un trajet (complet)" << endl;
         cout << "\t0. Quitter" << endl;
         cin >> choixMenu;
 
@@ -216,6 +244,9 @@ int main ()
                 break;
             case 4:
                 rechercherTrajet(leCatalogue);
+                break;
+            case 5:
+                rechercherCompletTrajet(leCatalogue);
                 break;
             case 0:
                 return 0;

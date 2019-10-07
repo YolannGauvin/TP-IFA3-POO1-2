@@ -56,6 +56,11 @@ public:
     // dans la méthode et devra donc être libérés plus tard dans 
     // le programme en dehors de celle-ci.
 
+    void RechercherComplet (
+        const char * villeDepart, 
+        const char * villeArrivee,
+        CollectionTrajets *& _trajets,
+        unsigned int & nbTrajets ) const;
 
 //------------------------------------------------- Surcharge d'opérateurs
 
@@ -72,8 +77,18 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
-    CollectionTrajets _trajets;
+    void combinaison(
+        const char * villeDepart, 
+        const char * villeArrivee,
+        unsigned int trajetCourant, 
+        bool prends, 
+        const Trajet** uneCombinaison,
+        unsigned int tailleCombinaison,
+        CollectionTrajets *& trajetsTrouves,
+        unsigned int tailleMaxTrajets,
+        unsigned int & nbTrajetsTrouves) const;
 //----------------------------------------------------- Attributs protégés
+    CollectionTrajets _trajets;
 
 };
 

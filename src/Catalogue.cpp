@@ -64,6 +64,24 @@ CollectionTrajets * Catalogue::Rechercher (
     return trajetsTrouves;
 } //----- Fin de Rechercher
 
+void Catalogue::RechercherComplet (
+    const char * villeDepart, 
+    const char * villeArrivee,
+    CollectionTrajets *& trajetsTrouves,
+    unsigned int & nbTrajetsTrouves ) const
+{
+    const unsigned int TAILLE_MAX_DEF = 50;
+    unsigned int tailleMaxTrajets = TAILLE_MAX_DEF;
+    trajetsTrouves = new CollectionTrajets[tailleMaxTrajets];
+    const Trajet** uneCombinaison = new const Trajet*[_trajets.NombreDeTrajets()];
+    nbTrajetsTrouves = 0;
+
+    combinaison(villeDepart, villeArrivee, 1, true, uneCombinaison, 0, trajetsTrouves, tailleMaxTrajets, nbTrajetsTrouves);
+    combinaison(villeDepart, villeArrivee, 1, false, uneCombinaison, 0, trajetsTrouves, tailleMaxTrajets, nbTrajetsTrouves);
+
+    delete[] uneCombinaison;
+}
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -91,3 +109,57 @@ Catalogue::~Catalogue ( )
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
+void Catalogue::combinaison(
+        const char * villeDepart, 
+        const char * villeArrivee,
+        unsigned int trajetCourant, 
+        bool prends, 
+        const Trajet** uneCombinaison,
+        unsigned int tailleCombinaison,
+        CollectionTrajets *& trajetsTrouves,
+        unsigned int tailleMaxTrajets,
+        unsigned int & nbTrajetsTrouves) const
+{
+    if (trajetCourant > _trajets.NombreDeTrajets())
+    {
+        return;
+    }
+
+    if (!prends)
+    {
+        combinaison(villeDepart, villeArrivee, trajetCourant + 1, true, uneCombinaison, tailleCombinaison, trajetsTrouves, tailleMaxTrajets, nbTrajetsTrouves);
+        combinaison(villeDepart, villeArrivee, trajetCourant + 1, false, uneCombinaison, tailleCombinaison, trajetsTrouves, tailleMaxTrajets, nbTrajetsTrouves);
+        return;
+    }
+
+    if (tailleCombinaison == 0)
+    {
+        if (strcmp(_trajets.TrajetNumero(trajetCourant)->VilleDepart(), villeDepart) != 0)
+            return;
+    }
+    else
+    {
+        if (strcmp(_trajets.TrajetNumero(trajetCourant)->VilleDepart(), uneCombinaison[tailleCombinaison-1]->VilleArrivee()) != 0)
+            return;
+    }
+    
+
+    uneCombinaison[tailleCombinaison] = _trajets.TrajetNumero(trajetCourant);
+    tailleCombinaison++;
+
+    if (strcmp(villeDepart, uneCombinaison[0]->VilleDepart()) == 0
+    && strcmp(villeArrivee, uneCombinaison[tailleCombinaison-1]->VilleArrivee()) == 0)
+    {
+        // Vérifier taille max
+        for (unsigned int i = 0; i < tailleCombinaison; i++)
+        {
+            trajetsTrouves[nbTrajetsTrouves].AjouterTrajet(uneCombinaison[i]);
+        }
+        nbTrajetsTrouves++;
+    }
+
+    combinaison(villeDepart, villeArrivee, trajetCourant + 1, true, uneCombinaison, tailleCombinaison, trajetsTrouves, tailleMaxTrajets, nbTrajetsTrouves);
+    combinaison(villeDepart, villeArrivee, trajetCourant + 1, false, uneCombinaison, tailleCombinaison, trajetsTrouves, tailleMaxTrajets, nbTrajetsTrouves);
+        
+
+}
