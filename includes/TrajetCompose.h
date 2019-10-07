@@ -45,7 +45,7 @@ public:
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
-    TrajetCompose ( CollectionTrajets composants );
+    TrajetCompose ( const CollectionTrajets & composants );
     // Mode d'emploi :
     // Constructeur de la classe <TrajetCompose>.
     // Construit un trajet à partir d'une copie profonde d'une collection

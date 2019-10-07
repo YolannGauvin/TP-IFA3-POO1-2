@@ -24,7 +24,7 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-void Catalogue::AjouterTrajet ( const Trajet * t )
+void Catalogue::AjouterTrajet (Trajet * t )
 // Algorithme :
 {
     _trajets.AjouterTrajet(t);
@@ -37,7 +37,8 @@ void Catalogue::Afficher () const
     for (unsigned int i = 1; i <= _trajets.NombreDeTrajets(); i++)
     {
         cout << i << " - ";
-         _trajets.TrajetNumero(i)->Afficher();
+        _trajets.TrajetNumero(i)->Afficher();
+        cout << endl;
     }
 } //----- Fin de Afficher
 
@@ -52,7 +53,7 @@ CollectionTrajets * Catalogue::Rechercher (
     
     for (unsigned int i = 1; i <= _trajets.NombreDeTrajets(); i++)
     {
-        const Trajet * trajetCourant = _trajets.TrajetNumero(i);
+        Trajet * trajetCourant = _trajets.TrajetNumero(i);
         if (strcmp(trajetCourant->VilleDepart(), villeDepart) == 0
         && strcmp(trajetCourant->VilleArrivee(), villeArrivee) == 0)
         {
@@ -77,6 +78,11 @@ Catalogue::Catalogue () : _trajets()
 Catalogue::~Catalogue ( )
 // Algorithme : Aucun
 {
+    for(unsigned int i = 1; i <= _trajets.NombreDeTrajets(); i++)
+    {
+        delete _trajets.TrajetNumero(i);
+    }
+
 #ifdef MAP
     cout << "Appel au destructeur de <Catalogue>" << endl;
 #endif

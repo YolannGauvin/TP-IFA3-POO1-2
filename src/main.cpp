@@ -137,10 +137,10 @@ static void ajouterTrajetCompose ( Catalogue & leCatalogue )
     
     while (true)
     {
-        cout << "Ville suivante : (Ctrl+d pour arrêter)";
+        cout << "Ville suivante : (`stop` pour arrêter)";
         cin >> villeArrivee;
 
-        if (cin.eof()) 
+        if (strcmp(villeArrivee, "stop") == 0)
             break;
 
         cout << "Moyen de transport :" << endl;
@@ -179,13 +179,12 @@ static void rechercherTrajet ( Catalogue & leCatalogue )
     for (unsigned int i = 1; i <= trajetsTrouves->NombreDeTrajets(); i++)
     {
         trajetsTrouves->TrajetNumero(i)->Afficher();
+        cout << endl;
     }
+
+    delete trajetsTrouves;
 }
 
-static void quit()
-{
-    exit(0);
-}
 //////////////////////////////////////////////////////////////////  PUBLIC
 
 //---------------------------------------------------- Fonctions publiques
@@ -219,7 +218,7 @@ int main ()
                 rechercherTrajet(leCatalogue);
                 break;
             case 0:
-                quit();
+                return 0;
         }
     }
     

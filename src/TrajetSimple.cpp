@@ -41,7 +41,7 @@ void TrajetSimple::Afficher () const
 {
     cout << "De " << _villeDepart 
         << " à " << _villeArrivee
-        << " en " << _moyenDeTransport << endl;
+        << " en " << _moyenDeTransport;
 } //----- Fin de Afficher
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -60,8 +60,8 @@ TrajetSimple::TrajetSimple (
         << laVilleArrivee << ","
         << leMoyenDeTransport << ")" << endl;
 #endif
-    char * _villeDepart = new char[strlen(laVilleDepart) + 1];
-    char * _villeArrivee = new char[strlen(laVilleArrivee) + 1];
+    _villeDepart = new char[strlen(laVilleDepart) + 1];
+    _villeArrivee = new char[strlen(laVilleArrivee) + 1];
     strcpy(_villeDepart, laVilleDepart);
     strcpy(_villeArrivee, laVilleArrivee);
 } //----- Fin de TrajetSimple

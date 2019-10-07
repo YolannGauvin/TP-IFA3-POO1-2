@@ -26,23 +26,29 @@ using namespace std;
 const char * TrajetCompose::VilleDepart () const
 // Algorithme :
 {
-    return this->VilleDepart;
+    return _trajets.TrajetNumero(1)->VilleDepart();
 } //----- Fin de VilleDepart
 
 const char * TrajetCompose::VilleArrivee () const
 // Algorithme :
 {
-     return this->VilleArrivee;
+    return _trajets.TrajetNumero(_trajets.NombreDeTrajets() )->VilleArrivee();
+
 } //----- Fin de VilleArrivee
 
 void TrajetCompose::Afficher () const
 // Algorithme :
 {
     // afficher tous le trajets
-
-    for(int i = 0; i < this-> _trajets.NombreDeTrajets ; i++)
+    if (_trajets.NombreDeTrajets() >= 1)
     {
-        //_trajets.getElements[i]->afficher();
+        _trajets.TrajetNumero(1)->Afficher();
+        
+        for(unsigned int i = 2; i <= this-> _trajets.NombreDeTrajets() ; i++)
+        {
+            cout << " - ";
+            _trajets.TrajetNumero(i)->Afficher();
+        }
     }
     
 } //----- Fin de Afficher
@@ -50,16 +56,11 @@ void TrajetCompose::Afficher () const
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
-TrajetCompose::TrajetCompose ( CollectionTrajets composants )
+TrajetCompose::TrajetCompose ( const CollectionTrajets & composants ) :
+    _trajets(composants)
 // Algorithme :
 //
 {
-
-    // construire CollectionTrajet
-    //this->_trajets->setNbElementMax();
-    //this->_trajets.setElements(trajets);
-    
-
 #ifdef MAP
     cout << "Appel au constructeur de <TrajetCompose> (nbTrajets : " 
         << composants.NombreDeTrajets() << ")" << endl;
@@ -70,6 +71,11 @@ TrajetCompose::~TrajetCompose ( )
 // Algorithme :
 //
 {
+    for(unsigned int i = 1; i <= _trajets.NombreDeTrajets(); i++)
+    {
+        delete _trajets.TrajetNumero(i);
+    }
+
 #ifdef MAP
     cout << "Appel au destructeur de <TrajetCompose>" << endl;
 #endif

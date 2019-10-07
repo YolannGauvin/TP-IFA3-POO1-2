@@ -61,8 +61,8 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
-    const char * _villeDepart;
-    const char * _villeArrivee;
+    char * _villeDepart;
+    char * _villeArrivee;
     moyenDeTransport _moyenDeTransport;
 };
 

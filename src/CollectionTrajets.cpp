@@ -22,11 +22,32 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-void CollectionTrajets::AjouterTrajet ( const Trajet * trajet )
+void CollectionTrajets::AjouterTrajet (Trajet * trajet )
 // Algorithme :
 {
-    this->_elements[this->_nbElementCourant] = trajet;
-    this->_nbElementCourant++;
+
+    if(_nbElementMax <= _nbElementCourant)
+    {
+        // realouer tableau 
+        _nbElementMax *= FACTEUR_AJUSTEMENT;
+        Trajet** nouveauTab = new Trajet*[_nbElementMax];
+
+        // copier les élements
+
+        for (unsigned int i = 0; i < _nbElementCourant; i++)
+        {
+            nouveauTab[i] = _elements[i];
+        }
+
+        delete []_elements;
+
+        _elements = nouveauTab;
+
+    }
+
+    _elements[_nbElementCourant] = trajet;
+    _nbElementCourant++;
+
 } // 
 
 unsigned int CollectionTrajets::NombreDeTrajets () const
@@ -35,15 +56,32 @@ unsigned int CollectionTrajets::NombreDeTrajets () const
     return this->_nbElementCourant;
 }
 
-const Trajet * CollectionTrajets::TrajetNumero ( unsigned int numero ) const
+Trajet * CollectionTrajets::TrajetNumero ( unsigned int numero ) const
 // Algorithme :
 {
-    return _elements[_nbElementCourant - 1];
+    return _elements[numero - 1];
 }
 
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
+CollectionTrajets::CollectionTrajets ( const CollectionTrajets & source)
+// Algorithme :
+{
+    _nbElementMax = source._nbElementMax;
+    _nbElementCourant = source._nbElementCourant;
+    _elements = new Trajet*[_nbElementMax];
+    
+    for (unsigned int i = 0; i < _nbElementCourant; i++)
+    {
+        _elements[i] = source._elements[i];
+    }
+    
+#ifdef MAP
+    cout << "Appel au constructeur par copie de <CollectionTrajets>" << endl;
+#endif
+} //----- Fin de CollectionTrajets
+
 CollectionTrajets::CollectionTrajets ( )
 // Algorithme :
 {
@@ -51,37 +89,17 @@ CollectionTrajets::CollectionTrajets ( )
     _nbElementCourant = 0;
     _elements = new Trajet*[_nbElementMax];
     
-    #ifdef MAP
-        cout << "Appel au constructeur par défaut de <CollectionTrajets>" << endl;
-    #endif
-} //----- Fin de CollectionTrajets
-
-CollectionTrajets::CollectionTrajets ( const CollectionTrajets & source )
-// Algorithme :
-//
-{
-    _nbElementMax = nbTrajets;
-    _nbElementCourant = nbTrajets;
-    _elements = trajets;
-
 #ifdef MAP
-    cout << "Appel au constructeur de <CollectionTrajets> (nbTrajets : " 
-        << source.NombreDeTrajets() << ")" << endl;
+    cout << "Appel au constructeur par défaut de <CollectionTrajets>" << endl;
 #endif
-
-    
 } //----- Fin de CollectionTrajets
+
+
 
 CollectionTrajets::~CollectionTrajets ( )
 // Algorithme :
 //
 {
-
-    for(int i = 0; i < _nbElementCourant; i++)
-    {
-        delete _elements[i];
-    }
-
     delete []_elements;
 
 #ifdef MAP

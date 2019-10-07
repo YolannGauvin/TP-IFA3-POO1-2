@@ -14,6 +14,7 @@
 
 //------------------------------------------------------------- Constantes
 const unsigned int TAILLEMAX = 10;
+const unsigned int FACTEUR_AJUSTEMENT = 2;
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
@@ -29,7 +30,7 @@ class CollectionTrajets
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    void AjouterTrajet ( const Trajet * trajet );
+    void AjouterTrajet ( Trajet * trajet );
     // Mode d'emploi :
     // Ajoute un trajet dans la collection.
     // Ce trajet se trouve à la suite du dernier trajet ajouté à la
@@ -44,7 +45,7 @@ public:
     // Renvoie la taille courante de la collection et donc le nombre
     // de trajets.
 
-    const Trajet * TrajetNumero ( unsigned int numero ) const;
+    Trajet * TrajetNumero ( unsigned int numero ) const;
     // Mode d'emploi :
     // Renvoie le numero-ieme trajet de la collection de trajets
     // (1 = premier trajet, ..., taille courante = dernier trajet)
@@ -86,7 +87,7 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
-    Trajet** _elements;
+    Trajet**_elements;
     unsigned int _nbElementMax;
     unsigned int _nbElementCourant;
 };
