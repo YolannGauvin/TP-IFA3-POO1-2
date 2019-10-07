@@ -22,7 +22,7 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-void CollectionTrajets::AjouterTrajet (Trajet * trajet )
+void CollectionTrajets::AjouterTrajet ( const Trajet * trajet )
 // Algorithme :
 {
 
@@ -30,7 +30,7 @@ void CollectionTrajets::AjouterTrajet (Trajet * trajet )
     {
         // realouer tableau 
         _nbElementMax *= FACTEUR_AJUSTEMENT;
-        Trajet** nouveauTab = new Trajet*[_nbElementMax];
+        const Trajet** nouveauTab = new const Trajet*[_nbElementMax];
 
         // copier les élements
 
@@ -56,7 +56,7 @@ unsigned int CollectionTrajets::NombreDeTrajets () const
     return this->_nbElementCourant;
 }
 
-Trajet * CollectionTrajets::TrajetNumero ( unsigned int numero ) const
+const Trajet * CollectionTrajets::TrajetNumero ( unsigned int numero ) const
 // Algorithme :
 {
     return _elements[numero - 1];
@@ -70,7 +70,7 @@ CollectionTrajets::CollectionTrajets ( const CollectionTrajets & source)
 {
     _nbElementMax = source._nbElementMax;
     _nbElementCourant = source._nbElementCourant;
-    _elements = new Trajet*[_nbElementMax];
+    _elements = new const Trajet*[_nbElementMax];
     
     for (unsigned int i = 0; i < _nbElementCourant; i++)
     {
@@ -87,7 +87,7 @@ CollectionTrajets::CollectionTrajets ( )
 {
     _nbElementMax = TAILLEMAX;
     _nbElementCourant = 0;
-    _elements = new Trajet*[_nbElementMax];
+    _elements = new const Trajet*[_nbElementMax];
     
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <CollectionTrajets>" << endl;

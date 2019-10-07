@@ -30,7 +30,7 @@ class CollectionTrajets
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    void AjouterTrajet ( Trajet * trajet );
+    void AjouterTrajet ( const Trajet * trajet );
     // Mode d'emploi :
     // Ajoute un trajet dans la collection.
     // Ce trajet se trouve à la suite du dernier trajet ajouté à la
@@ -45,7 +45,7 @@ public:
     // Renvoie la taille courante de la collection et donc le nombre
     // de trajets.
 
-    Trajet * TrajetNumero ( unsigned int numero ) const;
+    const Trajet * TrajetNumero ( unsigned int numero ) const;
     // Mode d'emploi :
     // Renvoie le numero-ieme trajet de la collection de trajets
     // (1 = premier trajet, ..., taille courante = dernier trajet)
@@ -87,7 +87,7 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 
 //----------------------------------------------------- Attributs protégés
-    Trajet**_elements;
+    const Trajet** _elements;
     unsigned int _nbElementMax;
     unsigned int _nbElementCourant;
 };

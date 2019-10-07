@@ -30,7 +30,7 @@ class Catalogue
 
 public:
 //----------------------------------------------------- Méthodes publiques
-    void AjouterTrajet (Trajet * unTrajet );
+    void AjouterTrajet ( const Trajet * unTrajet );
     // Mode d'emploi :
     // Permet d'ajouter le trajet unTrajet dans le catalogue.
     //

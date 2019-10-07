@@ -24,7 +24,7 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-void Catalogue::AjouterTrajet (Trajet * t )
+void Catalogue::AjouterTrajet ( const Trajet * t )
 // Algorithme :
 {
     _trajets.AjouterTrajet(t);
@@ -53,7 +53,7 @@ CollectionTrajets * Catalogue::Rechercher (
     
     for (unsigned int i = 1; i <= _trajets.NombreDeTrajets(); i++)
     {
-        Trajet * trajetCourant = _trajets.TrajetNumero(i);
+        const Trajet * trajetCourant = _trajets.TrajetNumero(i);
         if (strcmp(trajetCourant->VilleDepart(), villeDepart) == 0
         && strcmp(trajetCourant->VilleArrivee(), villeArrivee) == 0)
         {
