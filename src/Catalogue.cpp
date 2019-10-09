@@ -177,8 +177,18 @@ void Catalogue::combinaison(
 
     if (!prends)
     {
-        combinaison(villeDepart, villeArrivee, trajetCourant + 1, true, uneCombinaison, tailleCombinaison, trajetsTrouves, tailleMaxTrajets, nbTrajetsTrouves);
-        combinaison(villeDepart, villeArrivee, trajetCourant + 1, false, uneCombinaison, tailleCombinaison, trajetsTrouves, tailleMaxTrajets, nbTrajetsTrouves);
+        combinaison( villeDepart, villeArrivee, 
+            trajetCourant + 1, true, 
+            uneCombinaison, tailleCombinaison, 
+            trajetsTrouves, tailleMaxTrajets, 
+            nbTrajetsTrouves );
+
+        combinaison( villeDepart, villeArrivee, 
+            trajetCourant + 1, false, 
+            uneCombinaison, tailleCombinaison, 
+            trajetsTrouves, tailleMaxTrajets, 
+            nbTrajetsTrouves );
+
         return;
     }
 
@@ -215,8 +225,15 @@ void Catalogue::combinaison(
         nbTrajetsTrouves++;
     }
     
-    combinaison(villeDepart, villeArrivee, trajetCourant + 1, true, uneCombinaison, tailleCombinaison, trajetsTrouves, tailleMaxTrajets, nbTrajetsTrouves);
-    combinaison(villeDepart, villeArrivee, trajetCourant + 1, false, uneCombinaison, tailleCombinaison, trajetsTrouves, tailleMaxTrajets, nbTrajetsTrouves);
-        
+    combinaison( villeDepart, villeArrivee, 
+        trajetCourant + 1, true, 
+        uneCombinaison, tailleCombinaison, 
+        trajetsTrouves, tailleMaxTrajets, 
+        nbTrajetsTrouves );
 
+    combinaison( villeDepart, villeArrivee, 
+        trajetCourant + 1, false, 
+        uneCombinaison, tailleCombinaison, 
+        trajetsTrouves, tailleMaxTrajets, 
+        nbTrajetsTrouves );
 }

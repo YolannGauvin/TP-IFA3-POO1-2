@@ -57,6 +57,10 @@ public:
     // appelée. Le numéro doit être compris entre 1 et le nombre de 
     // trajets de la collection inclus.
 
+    void Ajuster ( );
+    // Mode d'emploi :
+    // Reajuste le tableau dynamique afin que la taille maximale
+    // devienne égale à la taille courante.
 
 //------------------------------------------------- Surcharge d'opérateurs
 

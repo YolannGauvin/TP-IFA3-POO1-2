@@ -65,6 +65,7 @@ TrajetCompose::TrajetCompose ( const CollectionTrajets & composants ) :
     cout << "Appel au constructeur de <TrajetCompose> (nbTrajets : " 
         << composants.NombreDeTrajets() << ")" << endl;
 #endif
+    _trajets.Ajuster();
 } //----- Fin de TrajetCompose
 
 TrajetCompose::~TrajetCompose ( )

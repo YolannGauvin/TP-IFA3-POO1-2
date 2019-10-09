@@ -48,7 +48,11 @@ public:
     TrajetCompose ( const CollectionTrajets & composants );
     // Mode d'emploi :
     // Constructeur de la classe <TrajetCompose>.
-    // Construit un trajet à partir d'une collection de trajets
+    // Construit les trajets composants à partir d'une collection
+    // de trajets.
+    // 
+    // Contrat de cohérence : la collection de trajets ne doit
+    // pas être vide.
 
     virtual ~TrajetCompose ( );
     // Mode d'emploi :

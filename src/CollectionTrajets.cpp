@@ -63,6 +63,26 @@ const Trajet * CollectionTrajets::TrajetNumero ( unsigned int numero ) const
     return _elements[numero - 1];
 }
 
+void CollectionTrajets::Ajuster ( )
+// Algorithme : Aucun
+{
+    if (_nbElementCourant == _nbElementMax) 
+        return;
+
+    _nbElementMax = _nbElementCourant;
+    const Trajet** nouveauTab = new const Trajet*[_nbElementMax];
+
+    // Copie les éléments de l'ancien tableau dans le nouveau
+    for (unsigned int i = 0; i < _nbElementCourant; i++)
+    {
+        nouveauTab[i] = _elements[i];
+    }
+
+    // Détruit l'ancien tableau
+    delete [] _elements;
+    _elements = nouveauTab;
+}
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
