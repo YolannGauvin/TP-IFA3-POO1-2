@@ -29,7 +29,6 @@ const unsigned int TAILLE_MAX_VILLE = 50;
 //---------------------------------------------------- Variables statiques
 
 //------------------------------------------------------ Fonctions privées
-//TRAIN, AUTO, BATEAU, AVION, VELO, MARCHE
 static void afficherMoyenDeTransport (
     moyenDeTransport leMoyenDeTransport )
 {
@@ -56,10 +55,23 @@ static void afficherMoyenDeTransport (
     }
 }
 
-static moyenDeTransport choisirMoyenDeTransport ( )
+static void saisirVille ( 
+    char * ville, 
+    unsigned int maxLength, 
+    const char * message = "Ville :" )
+{
+    cout << message << " (taille max: " << maxLength << ")" << endl;
+    cin >> ville;
+}
+
+static void saisirMoyenDeTransport ( 
+    moyenDeTransport & leMoyen, 
+    const char * message = "Moyen de transport :" )
 {
     int choixTransport;
 
+    cout << message << endl;
+    
     cout << "1. "; 
     afficherMoyenDeTransport(TRAIN);
     cout << endl;
@@ -85,16 +97,16 @@ static moyenDeTransport choisirMoyenDeTransport ( )
     cout << endl;
 
     cin >> choixTransport;
-    
+
     switch (choixTransport)
     {
-        case (1): return TRAIN;
-        case (2): return AUTO;
-        case (3): return BATEAU;
-        case (4): return AVION;
-        case (5): return VELO;
-        case (6): return MARCHE;
-        default: return TRAIN;
+        case (1): leMoyen = TRAIN; break;
+        case (2): leMoyen = AUTO; break;
+        case (3): leMoyen = BATEAU; break;
+        case (4): leMoyen = AVION; break;
+        case (5): leMoyen = VELO; break;
+        case (6): leMoyen = MARCHE; break;
+        default: leMoyen = TRAIN; break;
     }
 }
 
@@ -109,12 +121,9 @@ static void ajouterTrajetSimple ( Catalogue & leCatalogue )
     char villeDepart[TAILLE_MAX_VILLE + 1];
     char villeArrivee[TAILLE_MAX_VILLE + 1];
 
-    cout << "Ville de départ :" << endl;
-    cin >> villeDepart;
-    cout << "Ville d'arrivée :" << endl;
-    cin >> villeArrivee;
-    cout << "Moyen de transport :" << endl;
-    leMoyenDeTransport = choisirMoyenDeTransport();
+    saisirVille(villeDepart, TAILLE_MAX_VILLE, "Ville de départ :");
+    saisirVille(villeArrivee, TAILLE_MAX_VILLE, "Ville d'arrivée :");
+    saisirMoyenDeTransport(leMoyenDeTransport, "Moyen de transport :");
     
     leCatalogue.AjouterTrajet(
         new TrajetSimple(
@@ -132,19 +141,17 @@ static void ajouterTrajetCompose ( Catalogue & leCatalogue )
     char villeDepart[TAILLE_MAX_VILLE + 1];
     char villeArrivee[TAILLE_MAX_VILLE + 1];
 
-    cout << "Ville de départ :" << endl;
-    cin >> villeDepart;
+    saisirVille(villeDepart, TAILLE_MAX_VILLE, "Ville de départ :");
     
     while (true)
     {
-        cout << "Ville suivante : (`stop` pour arrêter)" << endl;
-        cin >> villeArrivee;
+        saisirVille(villeArrivee, TAILLE_MAX_VILLE, 
+            "Ville suivante (tapez `stop` pour arrêter) :");
 
         if (strcmp(villeArrivee, "stop") == 0)
             break;
 
-        cout << "Moyen de transport :" << endl;
-        leMoyenDeTransport = choisirMoyenDeTransport();
+        saisirMoyenDeTransport(leMoyenDeTransport, "Moyen de transport :");
 
         trajets.AjouterTrajet(
             new TrajetSimple(
@@ -167,10 +174,9 @@ static void rechercherTrajet ( Catalogue & leCatalogue )
 {
     char villeDepart[TAILLE_MAX_VILLE + 1];
     char villeArrivee[TAILLE_MAX_VILLE + 1];
-    cout << "Ville de départ :" << endl;
-    cin >> villeDepart;
-    cout << "Ville d'arrivée :" << endl;
-    cin >> villeArrivee;
+
+    saisirVille(villeDepart, TAILLE_MAX_VILLE, "Ville de départ :");
+    saisirVille(villeArrivee, TAILLE_MAX_VILLE, "Ville d'arrivée :");
 
     CollectionTrajets * trajetsTrouves (
         leCatalogue.Rechercher(villeDepart, villeArrivee)
@@ -179,6 +185,7 @@ static void rechercherTrajet ( Catalogue & leCatalogue )
     cout << "Résultat : " << endl;
     for (unsigned int i (1); i <= trajetsTrouves->NombreDeTrajets(); i++)
     {
+        cout << i << " - ";
         trajetsTrouves->TrajetNumero(i)->Afficher();
         cout << endl;
     }
@@ -190,10 +197,9 @@ static void rechercherCompletTrajet ( Catalogue & leCatalogue )
 {
     char villeDepart[TAILLE_MAX_VILLE + 1];
     char villeArrivee[TAILLE_MAX_VILLE + 1];
-    cout << "Ville de départ :" << endl;
-    cin >> villeDepart;
-    cout << "Ville d'arrivée :" << endl;
-    cin >> villeArrivee;
+
+    saisirVille(villeDepart, TAILLE_MAX_VILLE, "Ville de départ :");
+    saisirVille(villeArrivee, TAILLE_MAX_VILLE, "Ville d'arrivée :");
 
     CollectionTrajets * trajetsTrouves;
     unsigned int nbTrajetsTrouves;
@@ -203,8 +209,10 @@ static void rechercherCompletTrajet ( Catalogue & leCatalogue )
     cout << "Résultat : " << endl;
     for (unsigned int i (0); i < nbTrajetsTrouves; i++)
     {
+        cout << i + 1;
         for (unsigned int j (1); j <= trajetsTrouves[i].NombreDeTrajets(); j++)
         {
+            cout << " - ";
             trajetsTrouves[i].TrajetNumero(j)->Afficher();
         }
         cout << endl;
@@ -230,7 +238,11 @@ int main ()
         cout << "\t4. Rechercher un trajet" << endl;
         cout << "\t5. Rechercher un trajet (complet)" << endl;
         cout << "\t0. Quitter" << endl;
+
         cin >> choixMenu;
+        if (cin.eof()) {
+            choixMenu = 0;
+        }
 
         switch (choixMenu)
         {

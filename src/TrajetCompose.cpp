@@ -5,7 +5,8 @@
    copyright            : (C) 2019 par Aleryc SERRANIA
 *************************************************************************/
 
-//---------- Réalisation de la classe <TrajetCompose> (fichier TrajetCompose.cpp) -------
+//--Réalisation de la classe <TrajetCompose> 
+//                                     (fichier TrajetCompose.cpp) -------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -24,20 +25,21 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 const char * TrajetCompose::VilleDepart () const
-// Algorithme :
+// Algorithme : Aucun
 {
     return _trajets.TrajetNumero(1)->VilleDepart();
 } //----- Fin de VilleDepart
 
 const char * TrajetCompose::VilleArrivee () const
-// Algorithme :
+// Algorithme : Aucun
 {
     return _trajets.TrajetNumero(_trajets.NombreDeTrajets())->VilleArrivee();
 
 } //----- Fin de VilleArrivee
 
 void TrajetCompose::Afficher () const
-// Algorithme :
+// Algorithme : Affiche le premier trajet puis affiche tous les autres en 
+// préfixant un tiret pour chacun.
 {
     if (_trajets.NombreDeTrajets() >= 1)
     {
@@ -56,9 +58,8 @@ void TrajetCompose::Afficher () const
 
 //-------------------------------------------- Constructeurs - destructeur
 TrajetCompose::TrajetCompose ( const CollectionTrajets & composants ) :
-    Trajet (),
-    _trajets (composants)
-// Algorithme :
+    Trajet (), _trajets (composants)
+// Algorithme : Aucun
 {
 #ifdef MAP
     cout << "Appel au constructeur de <TrajetCompose> (nbTrajets : " 
@@ -67,7 +68,8 @@ TrajetCompose::TrajetCompose ( const CollectionTrajets & composants ) :
 } //----- Fin de TrajetCompose
 
 TrajetCompose::~TrajetCompose ( )
-// Algorithme :
+// Algorithme : Boucle sur tous les objets de la collection
+// pour les détruire.
 {
     for(unsigned int i (1); i <= _trajets.NombreDeTrajets(); i++)
     {

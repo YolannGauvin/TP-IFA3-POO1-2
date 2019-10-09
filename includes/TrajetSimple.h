@@ -50,7 +50,10 @@ public:
         const char * laVilleArrivee,
         moyenDeTransport leMoyenDeTransport );
     // Mode d'emploi :
-    // Constructeur par défaut de la classe <TrajetSimple>
+    // Constructeur à partir de la ville de départ, la ville d'arrivée et
+    // le moyen de transport donnés en paramètre.
+    // Effectue une copie de la chaîne de caractères de laVilleDepart et
+    // laVilleArrivee.
 
     virtual ~TrajetSimple ( );
     // Mode d'emploi :
@@ -59,6 +62,8 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
+    void afficherMoyenDeTransport() const;
+    // Affiche le moyen de transport d'une manière lisible.
 
 //----------------------------------------------------- Attributs protégés
     char * _villeDepart;
@@ -66,6 +71,6 @@ protected:
     moyenDeTransport _moyenDeTransport;
 };
 
-//--------------------------- Autres définitions dépendantes de <TrajetSimple>
+//----------------------- Autres définitions dépendantes de <TrajetSimple>
 
 #endif // TRAJETSIMPLE_H

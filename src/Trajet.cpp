@@ -5,7 +5,7 @@
    copyright            : (C) 2019 par Aleryc SERRANIA
 *************************************************************************/
 
-//---------- Réalisation de la classe <Trajet> (fichier Trajet.cpp) -------
+//---------- Réalisation de la classe <Trajet> (fichier Trajet.cpp) ------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -28,8 +28,7 @@ using namespace std;
 
 //-------------------------------------------- Constructeurs - destructeur
 Trajet::Trajet ( )
-// Algorithme :
-//
+// Algorithme : Aucun
 {
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <Trajet>" << endl;
@@ -37,8 +36,7 @@ Trajet::Trajet ( )
 } //----- Fin de Trajet
 
 Trajet::~Trajet ( )
-// Algorithme :
-//
+// Algorithme : Aucun
 {
 #ifdef MAP
     cout << "Appel au destructeur de <Trajet>" << endl;

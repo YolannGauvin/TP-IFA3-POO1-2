@@ -15,7 +15,7 @@ release: $(OBJECTS)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 debug: $(OBJECTS_DBG)
-	$(CC) -o $@ $^ $(CFLAGS) -g
+	$(CC) -o $@ $^ $(CFLAGS) -g -D MAP
 
 $(OBJ)/$(RELEASE)/%.o: $(SRC)/%.cpp
 	mkdir -p $(OBJ)/$(RELEASE)

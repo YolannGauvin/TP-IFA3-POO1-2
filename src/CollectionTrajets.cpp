@@ -5,7 +5,8 @@
    copyright            : (C) 2019 par Aleryc SERRANIA
 *************************************************************************/
 
-//---------- Réalisation de la classe <CollectionTrajets> (fichier CollectionTrajets.cpp) -------
+//---------- Réalisation de la classe <CollectionTrajets> 
+//                                 (fichier CollectionTrajets.cpp) -------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -23,24 +24,24 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 void CollectionTrajets::AjouterTrajet ( const Trajet * trajet )
-// Algorithme :
+// Algorithme : Si le nombre d'element courant est égal à la taille
+// maximale du tableau, on créé un nouveau tableau assez grand
 {
 
-    if(_nbElementMax <= _nbElementCourant)
+    if(_nbElementMax <= _nbElementCourant) // tableau pas assez grand
     {
-        // realouer tableau 
+        // Création d'un nouveau tableau assez grand
         _nbElementMax *= FACTEUR_AJUSTEMENT;
         const Trajet** nouveauTab = new const Trajet*[_nbElementMax];
 
-        // copier les élements
-
+        // Copie les éléments de l'ancien tableau dans le nouveau
         for (unsigned int i = 0; i < _nbElementCourant; i++)
         {
             nouveauTab[i] = _elements[i];
         }
 
+        // Détruit l'ancien tableau
         delete []_elements;
-
         _elements = nouveauTab;
 
     }
@@ -48,16 +49,16 @@ void CollectionTrajets::AjouterTrajet ( const Trajet * trajet )
     _elements[_nbElementCourant] = trajet;
     _nbElementCourant++;
 
-} // 
+} // ----- Fin de AjouterTrajet
 
 unsigned int CollectionTrajets::NombreDeTrajets () const
-// Algorithme :
+// Algorithme : Aucun
 {
     return _nbElementCourant;
 }
 
 const Trajet * CollectionTrajets::TrajetNumero ( unsigned int numero ) const
-// Algorithme :
+// Algorithme : Aucun
 {
     return _elements[numero - 1];
 }
@@ -69,23 +70,24 @@ CollectionTrajets::CollectionTrajets ( const CollectionTrajets & source ) :
     _elements (new const Trajet*[source._nbElementCourant]),
     _nbElementMax (source._nbElementMax),
     _nbElementCourant (source._nbElementCourant)
-// Algorithme :
+// Algorithme : Aucun
 {   
+#ifdef MAP
+    cout << "Appel au constructeur par copie de <CollectionTrajets>" << endl;
+#endif
+
     for (unsigned int i (0); i < _nbElementCourant; i++)
     {
         _elements[i] = source._elements[i];
     }
     
-#ifdef MAP
-    cout << "Appel au constructeur par copie de <CollectionTrajets>" << endl;
-#endif
 } //----- Fin de CollectionTrajets
 
 CollectionTrajets::CollectionTrajets () :
     _elements (new const Trajet*[TAILLE_MAX]),
     _nbElementMax (TAILLE_MAX),
     _nbElementCourant (0)
-// Algorithme :
+// Algorithme : Aucun
 {   
 #ifdef MAP
     cout << "Appel au constructeur par défaut de <CollectionTrajets>" << endl;
@@ -95,14 +97,15 @@ CollectionTrajets::CollectionTrajets () :
 
 
 CollectionTrajets::~CollectionTrajets ( )
-// Algorithme :
+// Algorithme : Aucun
 //
 {
-    delete []_elements;
-
 #ifdef MAP
     cout << "Appel au destructeur de <CollectionTrajets>" << endl;
 #endif
+
+    delete []_elements;
+
 } //----- Fin de ~CollectionTrajets
 
 //------------------------------------------------------------------ PRIVE

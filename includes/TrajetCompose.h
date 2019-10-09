@@ -19,9 +19,9 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <TrajetCompose>
-// Un TrajetCompose est une suite ordonnée de Trajets qui se suivent les 
-// les autres. La ville d'arrivée d'un trajet doit être la ville de départ
-// du trajet suivant.
+// Un TrajetCompose est une suite ordonnée de Trajets qui se suivent les  
+// uns les autres. La ville d'arrivée d'un trajet doit être la ville de
+// départ du trajet suivant.
 //------------------------------------------------------------------------
 class TrajetCompose : public Trajet
 {
@@ -48,15 +48,13 @@ public:
     TrajetCompose ( const CollectionTrajets & composants );
     // Mode d'emploi :
     // Constructeur de la classe <TrajetCompose>.
-    // Construit un trajet à partir d'une copie profonde d'une collection
-    // de trajets.
+    // Construit un trajet à partir d'une collection de trajets
 
     virtual ~TrajetCompose ( );
     // Mode d'emploi :
     // Destructeur de la classe <TrajetCompose>
-    //
-    // Contrat :
-    // Aucun
+    // Détruit les trajets composants ce trajet au passage.
+
 //------------------------------------------------------------------ PRIVE
 
 protected:
@@ -66,6 +64,6 @@ protected:
     CollectionTrajets _trajets;
 };
 
-//--------------------------- Autres définitions dépendantes de <TrajetCompose>
+//---------------------- Autres définitions dépendantes de <TrajetCompose>
 
 #endif // TRAJETCOMPOSE_H

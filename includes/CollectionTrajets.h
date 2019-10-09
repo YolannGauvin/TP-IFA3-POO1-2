@@ -13,7 +13,7 @@
 #include "Trajet.h"
 
 //------------------------------------------------------------- Constantes
-const unsigned int TAILLE_MAX = 10;
+const unsigned int TAILLE_MAX = 5;
 const unsigned int FACTEUR_AJUSTEMENT = 2;
 //------------------------------------------------------------------ Types
 
@@ -21,8 +21,10 @@ const unsigned int FACTEUR_AJUSTEMENT = 2;
 // Rôle de la classe <CollectionTrajets>
 // La classe CollectionTrajets permet d'ordonner des pointeurs
 // sur des instances de Trajet dans un tableau dynamique.
-// Elle propose des services d'ajout de trajets après sa construction
-// ainsi
+// Elle propose des services d'ajout de trajets après sa construction.
+// Elle ne s'occupe que du stockage des pointeurs sur trajet,
+// la destruction des objets devra être assurée par la partie
+// qui utilise la collection.
 //------------------------------------------------------------------------
 class CollectionTrajets
 {
@@ -48,14 +50,14 @@ public:
     const Trajet * TrajetNumero ( unsigned int numero ) const;
     // Mode d'emploi :
     // Renvoie le numero-ieme trajet de la collection de trajets
-    // (1 = premier trajet, ..., taille courante = dernier trajet)
+    // (1 = premier trajet, ..., nombre de trajets = dernier trajet)
     // 
     // Contrat de performance :
     // Si la collection est vide, cette méthode ne doit pas être 
-    // appelé. Le numéro doit être compris entre 1 et la taille courante 
-    // de la collection incluse.
+    // appelée. Le numéro doit être compris entre 1 et le nombre de 
+    // trajets de la collection inclus.
 
-    
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -65,7 +67,7 @@ public:
     // Les éléments de la collection sont des pointeurs sur Trajet et sont
     // rangés dans un tableau dynamique de taille maximale définie par une
     // constante.
-    // La collection est vide et par conséquent la taille courante est de 
+    // La collection est vide et par conséquent le nombre de trajet est de 
     // 0 après la construction.
     // Les éléments sont ordonnés par ordre d'ajout grâce à la méthode
     // AjouterTrajet.
@@ -73,9 +75,10 @@ public:
     CollectionTrajets ( const CollectionTrajets & source );
     // Mode d'emploi :
     // Constructeur par copie de la classe <CollectionTrajets>
-    // Construit une collection pleine à partir d'une autre collection.
     // Sa taille courante est la même que la taille de la collection
-    // passée en paramètre.
+    // à copier.
+    // Elle ne copie pas les trajets pointés par les pointeurs
+    // de la collection
 
     virtual ~CollectionTrajets ( );
     // Mode d'emploi :
@@ -92,6 +95,6 @@ protected:
     unsigned int _nbElementCourant;
 };
 
-//--------------------------- Autres définitions dépendantes de <CollectionTrajets>
+//------------------ Autres définitions dépendantes de <CollectionTrajets>
 
 #endif // COLLECTIONTRAJETS_H

@@ -17,10 +17,9 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Trajet>
-// La classe trajet est une classe abstraite qui déclare
-// les comportements de tous les trajets qui en hériteront
-// Pour tout type de trajet, on peut donner une ville de départ
-// et une ville d'arrivée.
+// La classe trajet est une classe abstraite qui promet
+// de donner une ville de départ, une ville d'arrivée et
+// une manière d'afficher le trajet.
 //------------------------------------------------------------------------
 class Trajet
 {

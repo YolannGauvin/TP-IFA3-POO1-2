@@ -5,7 +5,8 @@
    copyright            : (C) 2019 par Aleryc SERRANIA
 *************************************************************************/
 
-//---------- Réalisation de la classe <TrajetSimple> (fichier TrajetSimple.cpp) -------
+//---------- Réalisation de la classe <TrajetSimple> 
+//                                      (fichier TrajetSimple.cpp) -------
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -41,7 +42,8 @@ void TrajetSimple::Afficher () const
 {
     cout << "De " << _villeDepart 
         << " à " << _villeArrivee
-        << " en " << _moyenDeTransport;
+        << " en ";
+    afficherMoyenDeTransport();
 } //----- Fin de Afficher
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -55,13 +57,14 @@ TrajetSimple::TrajetSimple (
     _villeDepart (new char[strlen(laVilleDepart) + 1]),
     _villeArrivee (new char[strlen(laVilleDepart) + 1]),
     _moyenDeTransport (leMoyenDeTransport)
-// Algorithme : Aucun
+// Algorithme : Copie les tableau de laVilleDepart et laVilleArrivee 
 {
 #ifdef MAP
     cout << "Appel au constructeur de <TrajetSimple> (" 
         << laVilleDepart << " -> "
-        << laVilleArrivee << ","
-        << leMoyenDeTransport << ")" << endl;
+        << laVilleArrivee << ", ";
+    afficherMoyenDeTransport() ;
+    cout << ")" << endl;
 #endif
     strcpy(_villeDepart, laVilleDepart);
     strcpy(_villeArrivee, laVilleArrivee);
@@ -80,3 +83,28 @@ TrajetSimple::~TrajetSimple ( )
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
+void TrajetSimple::afficherMoyenDeTransport() const
+// Algorithme : Aucun
+{
+    switch (_moyenDeTransport)
+    {
+        case TRAIN:
+            cout << "Train";
+            break;
+        case AUTO:
+            cout << "Auto";
+            break;
+        case BATEAU:
+            cout << "Bateau";
+            break;
+        case AVION:
+            cout << "Avion";
+            break;
+        case VELO:
+            cout << "Velo";
+            break;
+        case MARCHE:
+            cout << "Marche";
+            break;
+    }    
+}

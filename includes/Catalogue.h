@@ -50,18 +50,27 @@ public:
         const char * villeArrivee) const;
     // Mode d'emploi :
     // Retourne tous les trajet dont la ville de départ 
-    // et la ville d’arrivée sont celles données en paramètre.
+    // et la ville d’arrivée sont celles données respectivement 
+    // en paramètre.
     // 
-    // Le tableau trajetsTrouves sera alloué dynamiquement 
+    // La collection de trajets sera alloué dynamiquement 
     // dans la méthode et devra donc être libérés plus tard dans 
-    // le programme en dehors de celle-ci.
+    // le programme.
 
     void RechercherComplet (
         const char * villeDepart, 
         const char * villeArrivee,
-        CollectionTrajets *& _trajets,
+        CollectionTrajets *& trajets,
         unsigned int & nbTrajets ) const;
-    // A définir
+    // Mode d'emploi :
+    // Retourne toutes les combinaisons de trajets dont villeDepart
+    // est la même ville de départ du premier trajet et villeArrivee
+    // est la même ville d'arrivée que le dernier trajet.
+    // Le paramètre de sortie trajets contiendra toutes les combinaions
+    // et nbTrajets contiendra le nombre de combinaison.
+    //
+    // Le tableau trajets est alloué dynamiquement dans la méthode
+    // et devra donc être libérés plus tard dans le programme.
 
 //------------------------------------------------- Surcharge d'opérateurs
 
@@ -82,17 +91,18 @@ protected:
         const char * villeDepart, 
         const char * villeArrivee,
         unsigned int trajetCourant, 
-        bool prends, 
+        bool prends,
         const Trajet** uneCombinaison,
         unsigned int tailleCombinaison,
         CollectionTrajets *& trajetsTrouves,
         unsigned int tailleMaxTrajets,
         unsigned int & nbTrajetsTrouves) const;
+
 //----------------------------------------------------- Attributs protégés
     CollectionTrajets _trajets;
 
 };
 
-//--------------------------- Autres définitions dépendantes de <Catalogue>
+//-------------------------- Autres définitions dépendantes de <Catalogue>
 
 #endif // CATALOGUE_H
