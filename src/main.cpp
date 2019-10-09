@@ -201,21 +201,28 @@ static void rechercherCompletTrajet ( Catalogue & leCatalogue )
     saisirVille(villeDepart, TAILLE_MAX_VILLE, "Ville de départ :");
     saisirVille(villeArrivee, TAILLE_MAX_VILLE, "Ville d'arrivée :");
 
-    CollectionTrajets * trajetsTrouves;
+    CollectionTrajets ** trajetsTrouves;
     unsigned int nbTrajetsTrouves;
 
     leCatalogue.RechercherComplet(villeDepart, villeArrivee, trajetsTrouves, nbTrajetsTrouves);
 
+    // Affichage des résultats
     cout << "Résultat : " << endl;
     for (unsigned int i (0); i < nbTrajetsTrouves; i++)
     {
         cout << i + 1;
-        for (unsigned int j (1); j <= trajetsTrouves[i].NombreDeTrajets(); j++)
+        for (unsigned int j (1); j <= trajetsTrouves[i]->NombreDeTrajets(); j++)
         {
             cout << " - ";
-            trajetsTrouves[i].TrajetNumero(j)->Afficher();
+            trajetsTrouves[i]->TrajetNumero(j)->Afficher();
         }
         cout << endl;
+    }
+
+    // Destruction des collections
+    for (unsigned int i (0); i < nbTrajetsTrouves; i++)
+    {
+        delete trajetsTrouves[i];
     }
 
     delete[] trajetsTrouves;

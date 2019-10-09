@@ -68,7 +68,7 @@ CollectionTrajets * Catalogue::Rechercher (
 void Catalogue::RechercherComplet (
     const char * villeDepart, 
     const char * villeArrivee,
-    CollectionTrajets *& trajetsTrouves,
+    CollectionTrajets **& trajetsTrouves,
     unsigned int & nbTrajetsTrouves ) const
 // Algorithme : 
 // Le principe de base est de parcourir toutes les combinaisons possibles
@@ -80,13 +80,13 @@ void Catalogue::RechercherComplet (
 // qui, à chaque niveau de l'arbre décide de prendre ou ne pas prendre
 // un trajet.
 {
-    const unsigned int TAILLE_MAX_DEF (50);
+    const unsigned int TAILLE_MAX_DEF (10);
     unsigned int tailleMaxTrajets (TAILLE_MAX_DEF);
     const Trajet** uneCombinaison (
         new const Trajet*[_trajets.NombreDeTrajets()]
     );
 
-    trajetsTrouves = new CollectionTrajets[tailleMaxTrajets];
+    trajetsTrouves = new CollectionTrajets*[tailleMaxTrajets];
     nbTrajetsTrouves = 0;
 
     combinaison(
@@ -151,7 +151,7 @@ void Catalogue::combinaison(
     bool prends,
     const Trajet** uneCombinaison,
     unsigned int tailleCombinaison,
-    CollectionTrajets *& trajetsTrouves,
+    CollectionTrajets **& trajetsTrouves,
     unsigned int tailleMaxTrajets,
     unsigned int & nbTrajetsTrouves ) const
 // Algorihtme :
@@ -217,10 +217,26 @@ void Catalogue::combinaison(
     if (strcmp(villeDepart, uneCombinaison[0]->VilleDepart()) == 0
     && strcmp(villeArrivee, uneCombinaison[tailleCombinaison-1]->VilleArrivee()) == 0)
     {
-        // Vérifier taille max
+        if (nbTrajetsTrouves >= tailleMaxTrajets)
+        {
+            tailleMaxTrajets += tailleMaxTrajets;
+            CollectionTrajets** nouvTableau (
+                new CollectionTrajets*[tailleMaxTrajets]
+            );
+            
+            for (unsigned int i (0); i < nbTrajetsTrouves; i++) 
+            {
+                nouvTableau[i] = trajetsTrouves[i];
+            }
+
+            delete[] trajetsTrouves;
+            trajetsTrouves = nouvTableau;
+        }
+
+        trajetsTrouves[nbTrajetsTrouves] = new CollectionTrajets;
         for (unsigned int i = 0; i < tailleCombinaison; i++)
         {
-            trajetsTrouves[nbTrajetsTrouves].AjouterTrajet(uneCombinaison[i]);
+            trajetsTrouves[nbTrajetsTrouves]->AjouterTrajet(uneCombinaison[i]);
         }
         nbTrajetsTrouves++;
     }

@@ -33,7 +33,9 @@ public:
     void AjouterTrajet ( const Trajet * unTrajet );
     // Mode d'emploi :
     // Permet d'ajouter le trajet unTrajet dans le catalogue.
-    //
+    // Le trajet doit être alloué dynamiquement en dehors de cette 
+    // méthode avant d'être ajouté. Après son ajout, c'est l'instance
+    // de Catalogue qui gère la destruction de ce trajet.
     // Contrat de cohérence :
     // Le trajet doit être un trajet valide (pour un trajet composé, 
     // la ville d'arrivée d'un trajet doit être la ville de départ
@@ -60,7 +62,7 @@ public:
     void RechercherComplet (
         const char * villeDepart, 
         const char * villeArrivee,
-        CollectionTrajets *& trajets,
+        CollectionTrajets **& trajets,
         unsigned int & nbTrajets ) const;
     // Mode d'emploi :
     // Retourne toutes les combinaisons de trajets dont villeDepart
@@ -70,7 +72,9 @@ public:
     // et nbTrajets contiendra le nombre de combinaison.
     //
     // Le tableau trajets est alloué dynamiquement dans la méthode
-    // et devra donc être libérés plus tard dans le programme.
+    // et devra donc être libérés plus tard dans le programme. Les 
+    // éléments du tableau trajets sont aussi alloués dynamiquement
+    // et devront aussi être libérés.
 
 //------------------------------------------------- Surcharge d'opérateurs
 
@@ -94,7 +98,7 @@ protected:
         bool prends,
         const Trajet** uneCombinaison,
         unsigned int tailleCombinaison,
-        CollectionTrajets *& trajetsTrouves,
+        CollectionTrajets **& trajetsTrouves,
         unsigned int tailleMaxTrajets,
         unsigned int & nbTrajetsTrouves) const;
 

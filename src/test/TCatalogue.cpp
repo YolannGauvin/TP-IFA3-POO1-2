@@ -127,11 +127,17 @@ void testRechercherCompletAucun()
     c.AjouterTrajet(t1);
     c.AjouterTrajet(t2);
     c.AjouterTrajet(t3);
-    CollectionTrajets * trajetsTrouves;
+    CollectionTrajets ** trajetsTrouves;
     unsigned int nbTrajetsTrouves;
 
     c.RechercherComplet("A", "E", trajetsTrouves, nbTrajetsTrouves);
     cout << nbTrajetsTrouves << endl;
+
+    for (unsigned int i (0); i < nbTrajetsTrouves; i++)
+    {
+        delete trajetsTrouves[i];
+    }
+
     delete[] trajetsTrouves;
     // Devrait afficher :
     // 0
@@ -150,7 +156,7 @@ void testRechercherCompletExiste()
     c.AjouterTrajet(t3);
     c.AjouterTrajet(t4);
 
-    CollectionTrajets * trajetsTrouves;
+    CollectionTrajets ** trajetsTrouves;
     unsigned int nbTrajetsTrouves; 
     c.RechercherComplet("A", "C", trajetsTrouves, nbTrajetsTrouves);
 
@@ -158,12 +164,17 @@ void testRechercherCompletExiste()
     for (unsigned int i (0); i < nbTrajetsTrouves; i++)
     {
         cout << i + 1;
-        for (unsigned int j (1); j <= trajetsTrouves[i].NombreDeTrajets(); j++)
+        for (unsigned int j (1); j <= trajetsTrouves[i]->NombreDeTrajets(); j++)
         {
             cout << " - ";
-            trajetsTrouves[i].TrajetNumero(j)->Afficher();
+            trajetsTrouves[i]->TrajetNumero(j)->Afficher();
         }
         cout << endl;
+    }
+
+    for (unsigned int i (0); i < nbTrajetsTrouves; i++)
+    {
+        delete trajetsTrouves[i];
     }
     delete[] trajetsTrouves;
 
