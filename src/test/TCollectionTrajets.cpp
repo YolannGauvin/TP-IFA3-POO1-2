@@ -2,7 +2,7 @@
                             TCollectionTrajets  -  description
                               --------------------
    début                : 09/10/2019
-   copyright            : (C) 2019 par Aleryc SERRANIA
+   copyright            : (C) 2019 par Aleryc SERRANIA et Kesly GASSANT
 *************************************************************************/
 
 //---------- Réalisation du module <TCollectionTrajets> (fichier TCollectionTrajets.cpp) -----

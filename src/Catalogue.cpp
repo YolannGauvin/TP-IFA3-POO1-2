@@ -2,7 +2,7 @@
                             Catalogue  -  description
                               --------------------
    début                : 03/10/2019
-   copyright            : (C) 2019 par Aleryc SERRANIA
+   copyright            : (C) 2019 par Aleryc SERRANIA et Kesly GASSANT
 *************************************************************************/
 
 //---------- Réalisation de la classe <Catalogue> 
@@ -46,9 +46,9 @@ void Catalogue::Afficher () const
 CollectionTrajets * Catalogue::Rechercher ( 
     const char * villeDepart,
     const char * villeArrivee) const
-// Algorithme : Boucle sur tous les trajet du catalogue et ajoute le trajet
-// dans la collection si la ville de départ et la ville d'arrivée
-// sont les mêmes
+// Algorithme : Boucle sur tous les trajet du catalogue et ajoute le 
+// trajet dans la collection si la ville de départ et la ville 
+// d'arrivée sont les mêmes
 {
     CollectionTrajets * trajetsTrouves (new CollectionTrajets());
     
@@ -85,33 +85,33 @@ void Catalogue::RechercherComplet (
     const Trajet** uneCombinaison (
         new const Trajet*[_trajets.NombreDeTrajets()]
     );
+    bool * pris ( new bool[_trajets.NombreDeTrajets()] );
+    for (unsigned int i = 0; i < _trajets.NombreDeTrajets(); i++)
+    {
+        pris[i] = false;
+    }
 
     trajetsTrouves = new CollectionTrajets*[tailleMaxTrajets];
     nbTrajetsTrouves = 0;
 
-    combinaison(
-        villeDepart, 
-        villeArrivee, 
-        1, // numéro du trajet courant
-        true, // on prend le trajet 
-        uneCombinaison, 
-        0, // nombre de trajets dans la combinaison
-        trajetsTrouves, 
-        tailleMaxTrajets, 
-        nbTrajetsTrouves
-    );
+    for (unsigned int i = 1; i <= _trajets.NombreDeTrajets(); i++)
+    {
+        pris[i-1] = true;
+        combinaison(
+            villeDepart, 
+            villeArrivee,
+            pris,
+            i, // index du prochain à prendre
+            uneCombinaison, 
+            0, // nombre de trajets dans la combinaison
+            trajetsTrouves, 
+            tailleMaxTrajets, 
+            nbTrajetsTrouves
+        );
+        pris[i-1] = false;
+    }
 
-    combinaison(
-        villeDepart, 
-        villeArrivee, 
-        1, // numéro du trajet courant
-        false, // on ne prend pas le trajet
-        uneCombinaison, 
-        0, // nombre de trajet dans la combinaison
-        trajetsTrouves, 
-        tailleMaxTrajets, 
-        nbTrajetsTrouves
-    );
+    
 
     delete[] uneCombinaison;
 }
@@ -147,8 +147,8 @@ Catalogue::~Catalogue ( )
 void Catalogue::combinaison(
     const char * villeDepart,
     const char * villeArrivee,
-    unsigned int trajetCourant,
-    bool prends,
+    bool * pris,
+    unsigned int indexAPrendre,
     const Trajet** uneCombinaison,
     unsigned int tailleCombinaison,
     CollectionTrajets **& trajetsTrouves,
@@ -159,63 +159,44 @@ void Catalogue::combinaison(
 // au trajet suivant (qu'on doit ou ne doit pas prendre).
 // Si on décide de prendre le trajet courant, il y a deux cas :
 //  - Cas général : vérifier que la ville de départ du trajet courant
-//    est la même que la ville d'arrivée du dernier trajet de la combinaison,
-//    sinon on arrête la récursivité.
-//  - Cas particulier : il n'y a aucun trajet dans la combinaison, on vérifie
-//    que la ville de départ du trajet courant est la même que celle demandée
-//    en paramètre, sinon on arrête la récursivité.
-// Dans tous les cas, si la ville d'arrivée du trajet courant (celui ajouté)
-// est la même que la ville d'arrivée donnée en paramètre, on ajoute la 
-// combinaison de trajet dans notre tableau de collection de trajets 
-// `trajetsTrouves` : c'est un trajet qui répond à la demande.
+//    est la même que la ville d'arrivée du dernier trajet de 
+//    la combinaison, sinon on arrête la récursivité.
+//  - Cas particulier : il n'y a aucun trajet dans la combinaison, 
+//    on vérifie que la ville de départ du trajet courant est la 
+//    même que celle demandée  en paramètre, sinon on arrête la 
+//    récursivité.
+// Dans tous les cas, si la ville d'arrivée du trajet courant 
+// (celui ajouté) est la même que la ville d'arrivée donnée en 
+// paramètre, on ajoute la combinaison de trajet dans notre 
+// tableau de collection de trajets `trajetsTrouves` : c'est
+// un trajet qui répond à la demande.
 // S'il n'y a plus de trajets à ajouter, la récursivité s'arrête.
 {
-    if (trajetCourant > _trajets.NombreDeTrajets())
-    {
-        return;
-    }
-
-    if (!prends)
-    {
-        combinaison( villeDepart, villeArrivee, 
-            trajetCourant + 1, true, 
-            uneCombinaison, tailleCombinaison, 
-            trajetsTrouves, tailleMaxTrajets, 
-            nbTrajetsTrouves );
-
-        combinaison( villeDepart, villeArrivee, 
-            trajetCourant + 1, false, 
-            uneCombinaison, tailleCombinaison, 
-            trajetsTrouves, tailleMaxTrajets, 
-            nbTrajetsTrouves );
-
-        return;
-    }
-
     // vérification de la cohésion entre trajet précédent et 
     // trajet courant
     if (tailleCombinaison == 0)
     {
-        if (strcmp(_trajets.TrajetNumero(trajetCourant)->VilleDepart(), 
+        if (strcmp(_trajets.TrajetNumero(indexAPrendre)->VilleDepart(), 
         villeDepart) != 0)
             return;
     }
     else
     {
-        if (strcmp( _trajets.TrajetNumero(trajetCourant)->VilleDepart(),
+        if (strcmp( _trajets.TrajetNumero(indexAPrendre)->VilleDepart(),
         uneCombinaison[tailleCombinaison-1]->VilleArrivee()) != 0)
             return;
     }
-    
 
     // ajout du trajet dans la combinaison
-    uneCombinaison[tailleCombinaison] = _trajets.TrajetNumero(trajetCourant);
+    uneCombinaison[tailleCombinaison] = _trajets.TrajetNumero(indexAPrendre);
     tailleCombinaison++;
 
     // si la combinaison de trajets répond à la demande,
     // on l'ajoute dans notre tableau.
-    if (strcmp(villeDepart, uneCombinaison[0]->VilleDepart()) == 0
-    && strcmp(villeArrivee, uneCombinaison[tailleCombinaison-1]->VilleArrivee()) == 0)
+    const Trajet * premier ( uneCombinaison[0] );
+    const Trajet * dernier ( uneCombinaison[tailleCombinaison-1] );
+    if (strcmp(villeDepart, premier->VilleDepart()) == 0
+    && strcmp(villeArrivee,dernier->VilleArrivee()) == 0)
     {
         if (nbTrajetsTrouves >= tailleMaxTrajets)
         {
@@ -236,20 +217,29 @@ void Catalogue::combinaison(
         trajetsTrouves[nbTrajetsTrouves] = new CollectionTrajets;
         for (unsigned int i = 0; i < tailleCombinaison; i++)
         {
-            trajetsTrouves[nbTrajetsTrouves]->AjouterTrajet(uneCombinaison[i]);
+            trajetsTrouves[nbTrajetsTrouves]
+                ->AjouterTrajet(uneCombinaison[i]);
         }
         nbTrajetsTrouves++;
     }
     
-    combinaison( villeDepart, villeArrivee, 
-        trajetCourant + 1, true, 
-        uneCombinaison, tailleCombinaison, 
-        trajetsTrouves, tailleMaxTrajets, 
-        nbTrajetsTrouves );
-
-    combinaison( villeDepart, villeArrivee, 
-        trajetCourant + 1, false, 
-        uneCombinaison, tailleCombinaison, 
-        trajetsTrouves, tailleMaxTrajets, 
-        nbTrajetsTrouves );
+    for (unsigned int i = 1; i <= _trajets.NombreDeTrajets(); i++)
+    {
+        if (!pris[i-1])
+        {
+            pris[i-1] = true;
+            combinaison(
+                villeDepart, 
+                villeArrivee,
+                pris,
+                i, // index du prochain à prendre
+                uneCombinaison, 
+                tailleCombinaison,
+                trajetsTrouves, 
+                tailleMaxTrajets, 
+                nbTrajetsTrouves
+            );
+            pris[i-1] = false;
+        }
+    }
 }

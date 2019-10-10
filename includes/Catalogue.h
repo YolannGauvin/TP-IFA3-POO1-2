@@ -2,7 +2,7 @@
                             Catalogue  -  description
                               --------------------
    début                : 03/10/2019
-   copyright            : (C) 2019 par Aleryc SERRANIA
+   copyright            : (C) 2019 par Aleryc SERRANIA et Kesly GASSANT
 *************************************************************************/
 
 //---------- Interface de la classe <Catalogue> (fichier <Catalogue.h>) ------
@@ -94,8 +94,8 @@ protected:
     void combinaison(
         const char * villeDepart, 
         const char * villeArrivee,
-        unsigned int trajetCourant, 
-        bool prends,
+        bool * pris,
+        unsigned int indexAPrendre,
         const Trajet** uneCombinaison,
         unsigned int tailleCombinaison,
         CollectionTrajets **& trajetsTrouves,

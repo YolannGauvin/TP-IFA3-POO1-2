@@ -2,7 +2,7 @@
                             TTrajetSimple  -  description
                               --------------------
    début                : 09/10/2019
-   copyright            : (C) 2019 par Aleryc SERRANIA
+   copyright            : (C) 2019 par Aleryc SERRANIA et Kesly GASSANT
 *************************************************************************/
 
 //---------- Interface du module <TTrajetSimple> (fichier TTrajetSimple.h) ---------

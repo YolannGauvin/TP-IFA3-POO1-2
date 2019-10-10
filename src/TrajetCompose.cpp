@@ -2,7 +2,7 @@
                             TrajetCompose  -  description
                               --------------------
    début                : 03/10/2019
-   copyright            : (C) 2019 par Aleryc SERRANIA
+   copyright            : (C) 2019 par Aleryc SERRANIA et Kesly GASSANT
 *************************************************************************/
 
 //--Réalisation de la classe <TrajetCompose> 
