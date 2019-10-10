@@ -28,4 +28,4 @@ $(OBJ)/$(DEBUG)/%.o: $(SRC)/%.cpp
 	$(CC) -c $< -o $@ $(CFLAGS) -g -D MAP
 
 clean:
-	rm obj/*/*.o debug release *_test -f
+	rm obj/*/*.o debug release -f
