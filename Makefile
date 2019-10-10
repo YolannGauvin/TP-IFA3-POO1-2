@@ -13,11 +13,11 @@ OBJECTS_DBG := $(patsubst $(SRC)/%.cpp, $(OBJ)/$(DEBUG)/%.o, $(SOURCES))
 
 # executable sans option de debug
 release: $(OBJECTS)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -o main $^ $(CFLAGS)
 
 # executable avec options de debug + definition de la constante MAP
 debug: $(OBJECTS_DBG)
-	$(CC) -o $@ $^ $(CFLAGS) -g -D MAP
+	$(CC) -o main_debug $^ $(CFLAGS) -g -D MAP
 
 $(OBJ)/$(RELEASE)/%.o: $(SRC)/%.cpp
 	mkdir -p $(OBJ)/$(RELEASE)
