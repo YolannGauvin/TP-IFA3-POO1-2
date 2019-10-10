@@ -11,9 +11,11 @@ SOURCES := $(wildcard $(SRC)/*.cpp)
 OBJECTS := $(patsubst $(SRC)/%.cpp, $(OBJ)/$(RELEASE)/%.o, $(SOURCES))
 OBJECTS_DBG := $(patsubst $(SRC)/%.cpp, $(OBJ)/$(DEBUG)/%.o, $(SOURCES))
 
+# executable sans option de debug
 release: $(OBJECTS)
 	$(CC) -o $@ $^ $(CFLAGS)
 
+# executable avec options de debug + definition de la constante MAP
 debug: $(OBJECTS_DBG)
 	$(CC) -o $@ $^ $(CFLAGS) -g -D MAP
 
