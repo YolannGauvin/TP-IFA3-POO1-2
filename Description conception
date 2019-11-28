@@ -1,17 +1,17 @@
 Format de fichier :
-nt : Nombre de trajet dans catalogue
 (
 (S ou C)|VilleDepart|VilleArrivée|(Moyen ou nbrTrajet)
-) * nt
+) Tant qu'il y a une ligne
 
-Format de ville : caractères Européens
+Format de ville : caractères Européens et chaine non vide
 
-Format de moyen : enum [VOITURE, TRAIN, AVION, BATEAU, MARCHE, VELO]
+Format de moyen ou nombre de trajet: entier positif (inférieur à la taille de l'énum pour le moyen)
+
+Format de type de trajet : S ou C
 
 
 DEMO
 ------------------------------
-3
 S|Lyon|Bordeaux|1
 C|Lyon|Paris|2
 S|Lyon|Marseille|3
@@ -26,6 +26,11 @@ Sauvegarde des fichiers dans le répertoire d'exécution
 
 En cas d'impossibilité d'écriture ou de lecture : avertissement de l'échec dans la sortie standard d'erreur
 En cas de nom de fichier invalide : avertissement de l'échec dans la sortie standard d'erreur
+
+Gestion d'erreur à la lecture :
+Si l'élément actuelement lu ne correspond pas au format attendu pour cet élément, on ne le prend pas en compte et on passe au suivant.
+Si tous éléments attendu sur une ligne ont été lu, on enregistre le trajet et on passe à la ligne suivante.
+Si l'ensemble des éléments attendu n'a pas été satisfait lorsque on atteint la fin de la ligne, on n'enregistre pas le trajet et on passe à la ligne suivante.
 
 -----------------------------------------------------------------------------------
 Spécification des fonctionnalités (dans le main):
