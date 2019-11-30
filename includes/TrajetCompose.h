@@ -41,7 +41,16 @@ public:
     // Mode d'emploi :
     // Format d'affichage :
     // « {trajet1.Afficher()} - {trajet2.Afficher()} - ...»
+    
+    virtual void AffichageDeSauvegarde () const;
+    // Mode d'emploi :
+    // Affiche le trajet sur la sortie standard pour une sauvegarde
 
+    virtual bool EstDeType(typeTrajet type) const;
+    // Mode d'emploi :
+    // Vérifie si le type de ce trajet est le même que 
+    // le type passé en paramètre
+    
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur

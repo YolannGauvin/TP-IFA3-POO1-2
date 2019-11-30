@@ -14,6 +14,7 @@
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
+enum typeTrajet { SIMPLE, COMPOSE };
 
 //------------------------------------------------------------------------
 // Rôle de la classe <Trajet>
@@ -39,7 +40,16 @@ public:
     // Mode d'emploi :
     // Affiche le trajet sur la sortie standard.
     // Le format est définie dans les classes descendantes.
-     
+
+    virtual void AffichageDeSauvegarde () const = 0;
+    // Mode d'emploi :
+    // Affiche le trajet sur la sortie standard pour une sauvegarde
+
+    virtual bool EstDeType(typeTrajet type) const = 0;
+    // Mode d'emploi :
+    // Vérifie si le type de ce trajet est le même que 
+    // le type passé en paramètre
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur

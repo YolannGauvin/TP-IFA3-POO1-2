@@ -43,6 +43,60 @@ void Catalogue::Afficher () const
     }
 } //----- Fin de Afficher
 
+void Catalogue::AfficherFiltre ( ) const
+// Algorithme :
+{
+    for (unsigned int i (1); i <= _trajets.NombreDeTrajets(); i++)
+    {
+        _trajets.TrajetNumero(i)->AffichageDeSauvegarde();
+    }
+} //----- Fin de AfficherFiltre
+
+void Catalogue::AfficherFiltre ( typeTrajet type ) const
+// Algorithme :
+{
+    for (unsigned int i (1); i <= _trajets.NombreDeTrajets(); i++)
+    {
+        if (_trajets.TrajetNumero(i)->EstDeType(type))
+        {
+            _trajets.TrajetNumero(i)->AffichageDeSauvegarde();
+        }
+    }
+} //----- Fin de AfficherFiltre
+
+void Catalogue::AfficherFiltre ( 
+    const char * villeDepart, 
+    const char * villeArrivee ) const
+// Algorithme :
+{
+    bool villeDepartSansFiltre = ( strcmp(villeDepart, "*") == 0 ) ;
+    bool villeArriveeSansFiltre = ( strcmp(villeArrivee, "*") == 0 ) ;
+    for (unsigned int i (1); i <= _trajets.NombreDeTrajets(); i++)
+    {
+        bool memeVilleDepart = strcmp(
+            _trajets.TrajetNumero(i)->VilleDepart(), 
+            villeDepart) == 0 || villeDepartSansFiltre;
+
+        bool memeVilleArrivee = strcmp(
+            _trajets.TrajetNumero(i)->VilleArrivee(), 
+            villeArrivee) == 0 || villeArriveeSansFiltre;
+
+        if (memeVilleDepart && memeVilleArrivee)
+        {
+            _trajets.TrajetNumero(i)->AffichageDeSauvegarde();
+        }
+    }
+} //----- Fin de AfficherFiltre
+
+void Catalogue::AfficherFiltre ( unsigned int debut, unsigned int taille ) const
+// Algorithme :
+{
+    for (unsigned int i (debut); i < debut + taille; i++)
+    {
+        _trajets.TrajetNumero(i)->AffichageDeSauvegarde();
+    }
+} //----- Fin de AfficherFiltre
+
 CollectionTrajets * Catalogue::Rechercher ( 
     const char * villeDepart,
     const char * villeArrivee) const
@@ -115,6 +169,12 @@ void Catalogue::RechercherComplet (
 
     delete[] uneCombinaison;
 }
+
+unsigned int Catalogue::NombreDeTrajets ( ) const
+// Algorithme :
+{
+    return _trajets.NombreDeTrajets();
+} //----- Fin de NombreDeTrajets
 
 //------------------------------------------------- Surcharge d'opérateurs
 

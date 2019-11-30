@@ -54,6 +54,26 @@ void TrajetCompose::Afficher () const
     
 } //----- Fin de Afficher
 
+void TrajetCompose::AffichageDeSauvegarde ( ) const
+// Algorithme :
+{
+    cout << "C|" << VilleDepart() << "|" 
+        << VilleArrivee() << "|" 
+        << _trajets.NombreDeTrajets();
+
+    for(unsigned int i (1); i <= this-> _trajets.NombreDeTrajets() ; i++)
+    {
+        cout << endl;
+        _trajets.TrajetNumero(i)->AffichageDeSauvegarde();
+    }
+} //----- Fin de AffichageDeSauvegarde
+
+bool TrajetCompose::EstDeType ( typeTrajet type ) const
+// Algorithme :
+{
+    return type == COMPOSE;
+} //----- Fin de EstDeType
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur

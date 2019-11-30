@@ -46,6 +46,20 @@ void TrajetSimple::Afficher () const
     afficherMoyenDeTransport();
 } //----- Fin de Afficher
 
+void TrajetSimple::AffichageDeSauvegarde ( ) const
+// Algorithme :
+{
+    cout << "S|" << _villeDepart
+        << "|" << _villeArrivee 
+        << "|" << _moyenDeTransport;
+} //----- Fin de AffichageDeSauvegarde
+
+bool TrajetSimple::EstDeType ( typeTrajet type ) const
+// Algorithme :
+{
+    return type == SIMPLE;
+} //----- Fin de EstDeType
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur

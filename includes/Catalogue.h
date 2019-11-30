@@ -47,6 +47,34 @@ public:
     // Format d'affichage :
     // {num} - {trajet.Affichage()}
 
+    void AfficherFiltre() const;
+    // Mode d'emploi :
+    // Affichage formaté sans filtre
+
+    void AfficherFiltre(typeTrajet type) const;
+    // Mode d'emploi :
+    // Affiche tous les trajets du catalogue sur la sortie standard 
+    // du même type que celui passé en paramètre
+
+    void AfficherFiltre(
+        const char * villeDepart, 
+        const char * villeArrivee) const;
+    // Mode d'emploi :
+    // Affiche tous les trajets du catalogue sur la sortie standard 
+    // ayant pour ville de départ et pour ville d'arrivée les villes
+    // passées en paramètre.
+    // Si un des paramètres = '*', on n'applique pas de filtre sur 
+    // ce type de ville.
+
+    void AfficherFiltre(
+        unsigned int debut, 
+        unsigned int taille) const;
+    // Mode d'emploi :
+    // Affiche tous les trajets du catalogue sur la sortie standard
+    // compris dans l'intervalle [debut, debut + taille[.
+    // debut < nombre de trajets du catalogue.
+    // Tronque la taille si debut + taille > nombre de trajets du catalogue.
+
     CollectionTrajets * Rechercher ( 
         const char * villeDepart, 
         const char * villeArrivee) const;
@@ -75,6 +103,11 @@ public:
     // et devra donc être libérés plus tard dans le programme. Les 
     // éléments du tableau trajets sont aussi alloués dynamiquement
     // et devront aussi être libérés.
+
+
+    virtual unsigned int NombreDeTrajets() const;
+    // Mode d'emploi :
+    // Renvoie le nombre de trajets dans le catalogue
 
 //------------------------------------------------- Surcharge d'opérateurs
 
