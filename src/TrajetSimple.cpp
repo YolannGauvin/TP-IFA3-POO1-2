@@ -46,10 +46,10 @@ void TrajetSimple::Afficher () const
     afficherMoyenDeTransport();
 } //----- Fin de Afficher
 
-void TrajetSimple::AffichageDeSauvegarde ( ) const
+void TrajetSimple::Sauvegarde ( ostream & out ) const
 // Algorithme :
 {
-    cout << "S|" << _villeDepart
+    out << "S|" << _villeDepart
         << "|" << _villeArrivee 
         << "|" << _moyenDeTransport;
 } //----- Fin de AffichageDeSauvegarde

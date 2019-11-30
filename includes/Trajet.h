@@ -10,6 +10,7 @@
 #if ! defined ( TRAJET_H )
 #define TRAJET_H
 //--------------------------------------------------- Interfaces utilisées
+#include <iostream>
 
 //------------------------------------------------------------- Constantes
 
@@ -27,6 +28,9 @@ class Trajet
 //----------------------------------------------------------------- PUBLIC
 
 public:
+//-------------------------------------------------------- Fonctions amies
+    friend std::ostream & operator<< ( std::ostream & out, const Trajet & trajet );
+
 //----------------------------------------------------- Méthodes publiques
     virtual const char * VilleDepart () const = 0;
     // Mode d'emploi :
@@ -41,11 +45,11 @@ public:
     // Affiche le trajet sur la sortie standard.
     // Le format est définie dans les classes descendantes.
 
-    virtual void AffichageDeSauvegarde () const = 0;
+    virtual void Sauvegarde ( std::ostream & out ) const = 0;
     // Mode d'emploi :
-    // Affiche le trajet sur la sortie standard pour une sauvegarde
+    // Affiche le trajet sur la sortie en paramètre pour une sauvegarde
 
-    virtual bool EstDeType(typeTrajet type) const = 0;
+    virtual bool EstDeType( typeTrajet type ) const = 0;
     // Mode d'emploi :
     // Vérifie si le type de ce trajet est le même que 
     // le type passé en paramètre

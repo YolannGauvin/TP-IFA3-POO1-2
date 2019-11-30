@@ -54,17 +54,17 @@ void TrajetCompose::Afficher () const
     
 } //----- Fin de Afficher
 
-void TrajetCompose::AffichageDeSauvegarde ( ) const
+void TrajetCompose::Sauvegarde ( ostream & out ) const
 // Algorithme :
 {
-    cout << "C|" << VilleDepart() << "|" 
+    out << "C|" << VilleDepart() << "|" 
         << VilleArrivee() << "|" 
         << _trajets.NombreDeTrajets();
 
     for(unsigned int i (1); i <= this-> _trajets.NombreDeTrajets() ; i++)
     {
-        cout << endl;
-        _trajets.TrajetNumero(i)->AffichageDeSauvegarde();
+        out << endl;
+        _trajets.TrajetNumero(i)->Sauvegarde(out);
     }
 } //----- Fin de AffichageDeSauvegarde
 

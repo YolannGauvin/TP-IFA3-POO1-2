@@ -43,6 +43,13 @@ Trajet::~Trajet ( )
 #endif
 } //----- Fin de ~Trajet
 
+//-------------------------------------------------------- Fonctions amies
+ostream & operator<< ( ostream & out, const Trajet & trajet )
+{
+    trajet.Sauvegarde(out);
+    return out;
+}
+
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées

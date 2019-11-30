@@ -43,28 +43,29 @@ void Catalogue::Afficher () const
     }
 } //----- Fin de Afficher
 
-void Catalogue::AfficherFiltre ( ) const
+void Catalogue::Sauvegarde ( ostream & out ) const
 // Algorithme :
 {
     for (unsigned int i (1); i <= _trajets.NombreDeTrajets(); i++)
     {
-        _trajets.TrajetNumero(i)->AffichageDeSauvegarde();
+        _trajets.TrajetNumero(i)->Sauvegarde(out);
     }
 } //----- Fin de AfficherFiltre
 
-void Catalogue::AfficherFiltre ( typeTrajet type ) const
+void Catalogue::Sauvegarde ( ostream & out, typeTrajet type ) const
 // Algorithme :
 {
     for (unsigned int i (1); i <= _trajets.NombreDeTrajets(); i++)
     {
         if (_trajets.TrajetNumero(i)->EstDeType(type))
         {
-            _trajets.TrajetNumero(i)->AffichageDeSauvegarde();
+            _trajets.TrajetNumero(i)->Sauvegarde(out);
         }
     }
 } //----- Fin de AfficherFiltre
 
-void Catalogue::AfficherFiltre ( 
+void Catalogue::Sauvegarde (
+    ostream & out, 
     const char * villeDepart, 
     const char * villeArrivee ) const
 // Algorithme :
@@ -83,17 +84,20 @@ void Catalogue::AfficherFiltre (
 
         if (memeVilleDepart && memeVilleArrivee)
         {
-            _trajets.TrajetNumero(i)->AffichageDeSauvegarde();
+            _trajets.TrajetNumero(i)->Sauvegarde(out);
         }
     }
 } //----- Fin de AfficherFiltre
 
-void Catalogue::AfficherFiltre ( unsigned int debut, unsigned int taille ) const
+void Catalogue::Sauvegarde ( 
+    ostream & out,
+    unsigned int debut, 
+    unsigned int taille ) const
 // Algorithme :
 {
     for (unsigned int i (debut); i < debut + taille; i++)
     {
-        _trajets.TrajetNumero(i)->AffichageDeSauvegarde();
+        _trajets.TrajetNumero(i)->Sauvegarde(out);
     }
 } //----- Fin de AfficherFiltre
 
