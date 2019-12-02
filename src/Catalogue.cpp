@@ -17,6 +17,8 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "../includes/Catalogue.h"
+#include "../includes/TrajetSimple.h"
+#include "../includes/TrajetCompose.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -49,6 +51,7 @@ void Catalogue::Sauvegarde ( ostream & out ) const
     for (unsigned int i (1); i <= _trajets.NombreDeTrajets(); i++)
     {
         _trajets.TrajetNumero(i)->Sauvegarde(out);
+        out << endl;
     }
 } //----- Fin de AfficherFiltre
 
@@ -60,6 +63,7 @@ void Catalogue::Sauvegarde ( ostream & out, typeTrajet type ) const
         if (_trajets.TrajetNumero(i)->EstDeType(type))
         {
             _trajets.TrajetNumero(i)->Sauvegarde(out);
+            out << endl;
         }
     }
 } //----- Fin de AfficherFiltre
@@ -85,6 +89,7 @@ void Catalogue::Sauvegarde (
         if (memeVilleDepart && memeVilleArrivee)
         {
             _trajets.TrajetNumero(i)->Sauvegarde(out);
+            out << endl;
         }
     }
 } //----- Fin de AfficherFiltre
@@ -98,6 +103,7 @@ void Catalogue::Sauvegarde (
     for (unsigned int i (debut); i < debut + taille; i++)
     {
         _trajets.TrajetNumero(i)->Sauvegarde(out);
+        out << endl;
     }
 } //----- Fin de AfficherFiltre
 
@@ -173,6 +179,147 @@ void Catalogue::RechercherComplet (
 
     delete[] uneCombinaison;
 }
+
+void Catalogue::Charger ( istream & in )
+// Algorithme :
+{
+    string buffer;
+
+    while (getline(in, buffer, '|')) 
+    {
+        Trajet * t (nullptr);
+        if (buffer == "S") 
+        {
+            t = chargerTrajetSimple(in);
+        }
+        if (buffer == "C")
+        {
+            t = chargerTrajetCompose(in);
+        }
+
+
+        if (t != nullptr) {
+            AjouterTrajet(t);
+        }
+    }
+} //----- Fin de Charger
+
+void Catalogue::Charger ( istream & in, typeTrajet type )
+// Algorithme :
+{
+    string buffer;
+
+    while (getline(in, buffer, '|')) 
+    {
+        Trajet * t (nullptr);
+        if (buffer == "S") 
+        {
+            t = chargerTrajetSimple(in);
+        }
+        if (buffer == "C")
+        {
+            t = chargerTrajetCompose(in);
+        }
+
+
+        if (t != nullptr) 
+        {
+            if (t->EstDeType(type))
+            {
+                AjouterTrajet(t);
+            }
+            else 
+            {
+                delete t;
+            }
+        }
+    }
+} //----- Fin de Charger
+
+void Catalogue::Charger (
+        istream & in,
+        const char * villeDepart, 
+        const char * villeArrivee )
+// Algorithme :
+{
+    string buffer;
+
+    bool villeDepartSansFiltre = ( strcmp(villeDepart, "*") == 0 ) ;
+    bool villeArriveeSansFiltre = ( strcmp(villeArrivee, "*") == 0 ) ;
+        
+
+    while (getline(in, buffer, '|')) 
+    {
+        Trajet * t (nullptr);
+        if (buffer == "S") 
+        {
+            t = chargerTrajetSimple(in);
+        }
+        if (buffer == "C")
+        {
+            t = chargerTrajetCompose(in);
+        }
+
+
+        if (t != nullptr) 
+        {
+            bool memeVilleDepart = strcmp(
+                t->VilleDepart(), 
+                villeDepart) == 0 || villeDepartSansFiltre;
+
+            bool memeVilleArrivee = strcmp(
+                t->VilleArrivee(), 
+                villeArrivee) == 0 || villeArriveeSansFiltre;
+
+            if (memeVilleDepart && memeVilleArrivee)
+            {
+                AjouterTrajet(t);
+            }
+            else 
+            {
+                delete t;
+            }
+        }
+    }
+} //----- Fin de Charger
+
+void Catalogue::Charger ( 
+    istream & in,
+    unsigned int debut, 
+    unsigned int taille )
+// Algorithme :
+{
+    string buffer;
+    unsigned int indexCourant = 0;
+
+    while (getline(in, buffer, '|') && indexCourant < debut + taille) 
+    {
+        Trajet * t (nullptr);
+        if (buffer == "S") 
+        {
+            t = chargerTrajetSimple(in);
+        }
+        if (buffer == "C")
+        {
+            t = chargerTrajetCompose(in);
+        }
+
+
+        if (t != nullptr) 
+        {
+            if (indexCourant >= debut)
+            {
+                AjouterTrajet(t);
+            }
+            else 
+            {
+                delete t;
+            }
+
+            ++indexCourant;
+        }
+    }
+} //----- Fin de Charger
 
 unsigned int Catalogue::NombreDeTrajets ( ) const
 // Algorithme :
@@ -307,3 +454,124 @@ void Catalogue::combinaison(
         }
     }
 }
+
+Trajet * Catalogue::chargerTrajetSimple ( istream & in ) const
+// Algorithme :
+{
+    string villeDepart, villeArrivee, ignore;
+    unsigned int moyenDeTransport;
+
+    // Récupération de la ville de départ
+    if (!getline(in, villeDepart, '|')) 
+    {
+#ifdef MAP
+        cerr << "Erreur lors de la lecture de la ville de départ" << endl;
+#endif
+        // ignore rest of the line
+        getline(in, ignore);
+        return nullptr;
+    }
+
+    // Récupération de la ville d'arrivée
+    if (!getline(in, villeArrivee, '|'))
+    {
+#ifdef MAP
+        cerr << "Erreur lors de la lecture de la ville d'arrivée" << endl;
+#endif
+        // ignore rest of the line
+        getline(in, ignore);
+        return nullptr;
+    }
+
+    // Récupération du moyen de transport
+    if (!(in >> moyenDeTransport) 
+    || moyenDeTransport < 0 
+    || moyenDeTransport >= NB_MOYENS)
+    {
+#ifdef MAP
+        cerr << "Erreur lors de la lecture du moyen de transport" << endl;
+#endif
+        // ignore rest of the line
+        getline(in, ignore);
+
+        return nullptr;
+    }
+
+    // ignore rest of the line
+    getline(in, ignore);
+
+    return new TrajetSimple(
+        villeDepart.c_str(), 
+        villeArrivee.c_str(), 
+        INT_TO_MOYEN[moyenDeTransport]);
+
+} //----- Fin de chargerTrajetSimple
+
+Trajet * Catalogue::chargerTrajetCompose ( istream & in ) const
+// Algorithme :
+{
+    string villeDepart, villeArrivee, ignore;
+    unsigned int nbTrajetsComposants;
+
+    // Récupération de la ville de départ
+    if (!getline(in, villeDepart, '|')) 
+    {
+#ifdef MAP
+        cerr << "Erreur lors de la lecture de la ville de départ" << endl;
+#endif
+        // ignore rest of the line
+        getline(in, ignore);
+        return nullptr;
+    }
+
+    // Récupération de la ville d'arrivée
+    if (!getline(in, villeArrivee, '|'))
+    {
+#ifdef MAP
+        cerr << "Erreur lors de la lecture de la ville d'arrivée" << endl;
+#endif
+        // ignore rest of the line
+        getline(in, ignore);
+        return nullptr;
+    }
+
+    // Récupération du moyen de transport
+    if (!(in >> nbTrajetsComposants))
+    {
+#ifdef MAP
+        cerr << "Erreur lors de la lecture du nombre de trajets" << endl;
+#endif
+        // ignore rest of the line
+        getline(in, ignore);
+        return nullptr;
+    }
+
+    // ignore rest of the line
+    getline(in, ignore);
+
+    CollectionTrajets ct;
+    for (unsigned int i = 0; i < nbTrajetsComposants; i++) 
+    {
+        string buffer;
+        if (getline(in, buffer, '|')) 
+        {
+            Trajet * t (nullptr);
+            if (buffer == "S") 
+            {
+                t = chargerTrajetSimple(in);
+            }
+            if (buffer == "C")
+            {
+                t = chargerTrajetCompose(in);
+            }
+
+            if (t != nullptr) 
+            {
+                ct.AjouterTrajet(t);
+            }
+        }
+    }
+
+    return new TrajetCompose(ct);
+
+} //----- Fin de TrajetCompose

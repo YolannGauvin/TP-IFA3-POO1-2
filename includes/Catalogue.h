@@ -78,6 +78,37 @@ public:
     // debut < nombre de trajets du catalogue.
     // Tronque la taille si debut + taille > nombre de trajets du catalogue.
 
+
+    void Charger( istream & in );
+    // Mode d'emploi :
+    // Chargement formaté sans filtre dans la sortie passée en paramètre
+
+    void Charger( istream & in, typeTrajet type );
+    // Mode d'emploi :
+    // Récupère tous les trajets du catalogue sur la sortie passée en 
+    // paramètre du même type que celui passé en paramètre
+
+    void Charger(
+        istream & in,
+        const char * villeDepart, 
+        const char * villeArrivee);
+    // Mode d'emploi :
+    // Récupère tous les trajets du catalogue sur la sortie passée 
+    // en paramètre  ayant pour ville de départ et pour ville 
+    // d'arrivée les villes passées en paramètre.
+    // Si un des paramètres = '*', on n'applique pas de filtre sur 
+    // ce type de ville.
+
+    void Charger(
+        istream & in,
+        unsigned int debut, 
+        unsigned int taille);
+    // Mode d'emploi :
+    // Récupère tous les trajets du catalogue sur la sortie passée 
+    // en paramètre compris dans l'intervalle [debut, debut + taille[.
+    // debut < nombre de trajets du catalogue.
+    // Tronque la taille si debut + taille > nombre de trajets du catalogue.
+
     CollectionTrajets * Rechercher ( 
         const char * villeDepart, 
         const char * villeArrivee) const;
@@ -137,6 +168,9 @@ protected:
         CollectionTrajets **& trajetsTrouves,
         unsigned int tailleMaxTrajets,
         unsigned int & nbTrajetsTrouves) const;
+
+    Trajet * chargerTrajetSimple( istream & in ) const;
+    Trajet * chargerTrajetCompose( istream & in ) const;
 
 //----------------------------------------------------- Attributs protégés
     CollectionTrajets _trajets;

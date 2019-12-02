@@ -68,6 +68,7 @@ void TrajetCompose::Sauvegarde ( ostream & out ) const
     }
 } //----- Fin de AffichageDeSauvegarde
 
+
 bool TrajetCompose::EstDeType ( typeTrajet type ) const
 // Algorithme :
 {

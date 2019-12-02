@@ -14,6 +14,7 @@
 using namespace std;
 #include <iostream>
 #include <cstring>
+#include <string>
 
 //------------------------------------------------------ Include personnel
 #include "../includes/TrajetSimple.h"
@@ -54,6 +55,7 @@ void TrajetSimple::Sauvegarde ( ostream & out ) const
         << "|" << _moyenDeTransport;
 } //----- Fin de AffichageDeSauvegarde
 
+
 bool TrajetSimple::EstDeType ( typeTrajet type ) const
 // Algorithme :
 {
@@ -69,7 +71,7 @@ TrajetSimple::TrajetSimple (
     moyenDeTransport leMoyenDeTransport
 ) : Trajet(),
     _villeDepart (new char[strlen(laVilleDepart) + 1]),
-    _villeArrivee (new char[strlen(laVilleDepart) + 1]),
+    _villeArrivee (new char[strlen(laVilleArrivee) + 1]),
     _moyenDeTransport (leMoyenDeTransport)
 // Algorithme : Copie les tableau de laVilleDepart et laVilleArrivee 
 {

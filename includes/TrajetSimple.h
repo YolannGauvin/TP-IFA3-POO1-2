@@ -12,11 +12,16 @@
 //--------------------------------------------------- Interfaces utilisées
 #include "Trajet.h"
 //------------------------------------------------------------- Constantes
+const int NB_MOYENS = 6;
 
 //------------------------------------------------------------------ Types
 typedef enum {
     TRAIN, AUTO, BATEAU, AVION, VELO, MARCHE
 } moyenDeTransport;
+
+const moyenDeTransport INT_TO_MOYEN[] = {
+    TRAIN, AUTO, BATEAU, AVION, VELO, MARCHE
+};
 
 //------------------------------------------------------------------------
 // Rôle de la classe <TrajetSimple>
