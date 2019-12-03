@@ -111,6 +111,7 @@ Les autres caractères blancs (espaces, tabulation, etc.) avant et après le nom
 
 Lorsqu'une chaîne vide est autorisée, il suffit de saisir un retour à la ligne sans caractère avoir saisi de caractères.
 
+La taille d'un nom de ville est limitée à 255 caractères (une taille raisonnable pour une ville).
 
 Saisie d'un moyen de transport :
 ------------------------------
