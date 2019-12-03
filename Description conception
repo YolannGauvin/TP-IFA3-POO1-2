@@ -156,10 +156,16 @@ Saisie d'une borne :
 Pour la saisie d'une borne d'un intervalle, les erreurs gérés et affichées sont les suivantes :
   - l'utilisateur n'a pas saisie un entier positif ;
   - le nombre saisie n'est pas inclus entre les bornes minimale et maximale (si indiquées).
- 
+
+Les bornes minimale et maximale ne sont présentes que pour la sauvegarde. 
+La borne minimale est au début 1 et la borne maximale est le nombre de trajet dans le catalogue. 
+Après la saisie de la borne inférieure, la borne minimale devient la borne inférieure.
+
 Lorsqu'une erreur pour la saisie d'une borne, on demande à l'utilisateur de saisir à nouveau la borne.
 
 Que la saisie soit réussie ou non, le programme ignore le reste de la ligne.
+
+
 
 
 Affichage des erreurs :
