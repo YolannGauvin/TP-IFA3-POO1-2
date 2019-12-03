@@ -7,17 +7,17 @@ Pour chaque trajet on a:
   - la ville d'arrivée (comprenant des caractères européens) ;
   - un nombre entier positif représentant :
     - pour un trajet simple, le moyen de transport (compris entre 0 et 6) ;
-    - pour un trajet complet, le nombre de trajet composant ce trajet complet.
+    - pour un trajet complet, le nombre de trajets composant ce trajet complet.
 
 Chaque élément d'un trajet est séparé par le caractère '|'.
 Chaque trajet est séparé par un retour à la ligne.
 
 Pour résumé, pour chaque trajet on a :
-(S ou C)|VilleDepart|VilleArrivée|(Moyen ou NbrDeTrajet)
+(S ou C)|VilleDepart|VilleArrivée|(MoyenDeTransport ou NbrDeTrajet)
 
 Format de ville : caractères européens et chaine non vide
 Format de nombre de trajet: entier positif
-Format d'un moyen de transport : entier positif compris entre 0 et 6. Dans l'ordre : TRAIN, AUTO, BATEAU, AVION, VELO, MARCHE 
+Format d'un moyen de transport : entier positif compris entre 0 et 6 représentant dans l'ordre : TRAIN, AUTO, BATEAU, AVION, VELO, MARCHE 
 Format de type de trajet : caractère 'S' ou 'C'
 
 
@@ -54,6 +54,7 @@ Un premier menu s'affiche à l'utilisateur et lui demande de choisir entre les o
   0 - Quitter
 
 Une option est choisi en saissant son numéro associé.
+Après la fin de la réalisation d'une option, le programme revient vers ce menu, sauf dans le cas de l'option "Quitter" qui termine le programme.
 
 
 Ajouter un trajet simple :
@@ -69,7 +70,7 @@ Ensuite, tant qu'il ne saisie pas une chaîne vide pour le nom de la ville suiva
   - le nom de la ville suivante ;
   - le moyen de transport pour aller vers la ville suivantes.
 
-Rechercher un trajet (avancé) :
+Rechercher un trajet (avancé ou non) :
 ------------------------------
 
 L'utilisateur doit saisir dans l'ordre la ville de départ et la ville d'arrivée.
@@ -117,7 +118,7 @@ Saisie d'un moyen de transport :
 ------------------------------
 
 Pour la saisie d'un moyen de transport, les erreurs gérés et affichées sont les suivantes :
-  - l'utilisateur n'a pas saisie un entier positif ;
+  - l'utilisateur n'a pas saisi un entier positif ;
   - le nombre saisie n'est pas entre 1 et le nombre de moyen de transport disponible.
 
 Lorsqu'une erreur pour la saisie d'un moyen de transport est gérée, on demande à l'utilisateur de saisir à nouveau le moyen de transport
@@ -128,7 +129,7 @@ Saisie d'une option :
 -------------------
 
 Pour la saisie d'une option dans un menu, les erreurs gérés et affichées sont les suivantes :
-  - l'utilisateur n'a pas saisie un entier positif ;
+  - l'utilisateur n'a pas saisi un entier positif ;
   - le nombre saisie n'est pas entre 1 et le nombre d'options disponibles.
 
 Lorsqu'une erreur pour la saisie d'une option est gérée, on demande à l'utilisateur de saisir à nouveau le moyen de transport
@@ -155,34 +156,22 @@ Saisie d'une borne :
 ------------------
 
 Pour la saisie d'une borne d'un intervalle, les erreurs gérés et affichées sont les suivantes :
-  - l'utilisateur n'a pas saisie un entier positif ;
+  - l'utilisateur n'a pas saisi un entier positif ;
   - le nombre saisie n'est pas inclus entre les bornes minimale et maximale (si indiquées).
 
 Les bornes minimale et maximale ne sont présentes que pour la sauvegarde. 
 La borne minimale est au début 1 et la borne maximale est le nombre de trajet dans le catalogue. 
 Après la saisie de la borne inférieure, la borne minimale devient la borne inférieure.
 
-Lorsqu'une erreur pour la saisie d'une borne, on demande à l'utilisateur de saisir à nouveau la borne.
+Lorsqu'une erreur pour la saisie d'une borne est gérée, on demande à l'utilisateur de saisir à nouveau la borne.
 
 Que la saisie soit réussie ou non, le programme ignore le reste de la ligne.
-
-
 
 
 Affichage des erreurs :
 ---------------------
 
-Toutes les erreurs sont affichées sur la sortie standard d'erreur du système afin de pouvoir facilement rediriger les erreurs dans un fichier à part
-
-
-
-
-
-
-
-
-
-
+Toutes les erreurs sont affichées sur la sortie standard d'erreur du système afin de pouvoir facilement rediriger les erreurs dans un fichier à part.
 
 
 
