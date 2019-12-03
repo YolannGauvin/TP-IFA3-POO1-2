@@ -13,6 +13,7 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <sstream>
 #include <cstring>
 
 //------------------------------------------------------ Include personnel
@@ -74,8 +75,8 @@ void Catalogue::Sauvegarde (
     const char * villeArrivee ) const
 // Algorithme :
 {
-    bool villeDepartSansFiltre = ( strcmp(villeDepart, "*") == 0 ) ;
-    bool villeArriveeSansFiltre = ( strcmp(villeArrivee, "*") == 0 ) ;
+    bool villeDepartSansFiltre = ( strlen(villeDepart) == 0 ) ;
+    bool villeArriveeSansFiltre = ( strlen(villeArrivee) == 0 ) ;
     for (unsigned int i (1); i <= _trajets.NombreDeTrajets(); i++)
     {
         bool memeVilleDepart = strcmp(
@@ -97,10 +98,10 @@ void Catalogue::Sauvegarde (
 void Catalogue::Sauvegarde ( 
     ostream & out,
     unsigned int debut, 
-    unsigned int taille ) const
+    unsigned int fin ) const
 // Algorithme :
 {
-    for (unsigned int i (debut); i < debut + taille; i++)
+    for (unsigned int i (debut); i <= fin; i++)
     {
         _trajets.TrajetNumero(i)->Sauvegarde(out);
         out << endl;
@@ -244,8 +245,8 @@ void Catalogue::Charger (
 {
     string buffer;
 
-    bool villeDepartSansFiltre = ( strcmp(villeDepart, "*") == 0 ) ;
-    bool villeArriveeSansFiltre = ( strcmp(villeArrivee, "*") == 0 ) ;
+    bool villeDepartSansFiltre = ( strlen(villeDepart) == 0 ) ;
+    bool villeArriveeSansFiltre = ( strlen(villeArrivee) == 0 ) ;
         
 
     while (getline(in, buffer, '|')) 
@@ -286,13 +287,13 @@ void Catalogue::Charger (
 void Catalogue::Charger ( 
     istream & in,
     unsigned int debut, 
-    unsigned int taille )
+    unsigned int fin )
 // Algorithme :
 {
     string buffer;
-    unsigned int indexCourant = 0;
+    unsigned int indexCourant = 1;
 
-    while (getline(in, buffer, '|') && indexCourant < debut + taille) 
+    while (getline(in, buffer, '|') && indexCourant <= fin ) 
     {
         Trajet * t (nullptr);
         if (buffer == "S") 
@@ -315,7 +316,6 @@ void Catalogue::Charger (
             {
                 delete t;
             }
-
             ++indexCourant;
         }
     }
@@ -458,47 +458,38 @@ void Catalogue::combinaison(
 Trajet * Catalogue::chargerTrajetSimple ( istream & in ) const
 // Algorithme :
 {
-    string villeDepart, villeArrivee, ignore;
+    istringstream iss;
+    string ligne;
+    string villeDepart, villeArrivee;
     unsigned int moyenDeTransport;
 
+    // Récupération de la ligne
+    getline(in, ligne);
+
+    iss.str(ligne);
+
     // Récupération de la ville de départ
-    if (!getline(in, villeDepart, '|')) 
+    if (!getline(iss, villeDepart, '|')) 
     {
-#ifdef MAP
         cerr << "Erreur lors de la lecture de la ville de départ" << endl;
-#endif
-        // ignore rest of the line
-        getline(in, ignore);
         return nullptr;
     }
 
     // Récupération de la ville d'arrivée
-    if (!getline(in, villeArrivee, '|'))
+    if (!getline(iss, villeArrivee, '|'))
     {
-#ifdef MAP
         cerr << "Erreur lors de la lecture de la ville d'arrivée" << endl;
-#endif
-        // ignore rest of the line
-        getline(in, ignore);
         return nullptr;
     }
 
     // Récupération du moyen de transport
-    if (!(in >> moyenDeTransport) 
+    if (!(iss >> moyenDeTransport) 
     || moyenDeTransport < 0 
     || moyenDeTransport >= NB_MOYENS)
     {
-#ifdef MAP
         cerr << "Erreur lors de la lecture du moyen de transport" << endl;
-#endif
-        // ignore rest of the line
-        getline(in, ignore);
-
         return nullptr;
     }
-
-    // ignore rest of the line
-    getline(in, ignore);
 
     return new TrajetSimple(
         villeDepart.c_str(), 
@@ -510,44 +501,39 @@ Trajet * Catalogue::chargerTrajetSimple ( istream & in ) const
 Trajet * Catalogue::chargerTrajetCompose ( istream & in ) const
 // Algorithme :
 {
-    string villeDepart, villeArrivee, ignore;
+
+    istringstream iss;
+    string ligne;
+    string villeDepart, villeArrivee;
     unsigned int nbTrajetsComposants;
 
+    // Récupération de la ligne
+    getline(in, ligne);
+
+    iss.str(ligne);
+
     // Récupération de la ville de départ
-    if (!getline(in, villeDepart, '|')) 
+    if (!getline(iss, villeDepart, '|')) 
     {
-#ifdef MAP
         cerr << "Erreur lors de la lecture de la ville de départ" << endl;
-#endif
-        // ignore rest of the line
-        getline(in, ignore);
         return nullptr;
     }
 
     // Récupération de la ville d'arrivée
-    if (!getline(in, villeArrivee, '|'))
+    if (!getline(iss, villeArrivee, '|'))
     {
-#ifdef MAP
         cerr << "Erreur lors de la lecture de la ville d'arrivée" << endl;
-#endif
-        // ignore rest of the line
-        getline(in, ignore);
         return nullptr;
     }
 
     // Récupération du moyen de transport
-    if (!(in >> nbTrajetsComposants))
+    if (!(iss >> nbTrajetsComposants))
     {
 #ifdef MAP
         cerr << "Erreur lors de la lecture du nombre de trajets" << endl;
 #endif
-        // ignore rest of the line
-        getline(in, ignore);
         return nullptr;
     }
-
-    // ignore rest of the line
-    getline(in, ignore);
 
     CollectionTrajets ct;
     for (unsigned int i = 0; i < nbTrajetsComposants; i++) 

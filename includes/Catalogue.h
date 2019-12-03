@@ -71,7 +71,7 @@ public:
     void Sauvegarde(
         ostream & out,
         unsigned int debut, 
-        unsigned int taille) const;
+        unsigned int fin) const;
     // Mode d'emploi :
     // Affiche tous les trajets du catalogue sur la sortie passée 
     // en paramètre compris dans l'intervalle [debut, debut + taille[.
@@ -102,7 +102,7 @@ public:
     void Charger(
         istream & in,
         unsigned int debut, 
-        unsigned int taille);
+        unsigned int fin);
     // Mode d'emploi :
     // Récupère tous les trajets du catalogue sur la sortie passée 
     // en paramètre compris dans l'intervalle [debut, debut + taille[.

@@ -24,8 +24,7 @@ using namespace std;
 ///////////////////////////////////////////////////////////////////  PRIVE
 
 //------------------------------------------------------------- Constantes
-const unsigned int TAILLE_MAX_VILLE = 50;
-
+const unsigned int TAILLE_MAX_VILLE = 255;
 //------------------------------------------------------------------ Types
 
 //---------------------------------------------------- Variables statiques
@@ -57,13 +56,40 @@ static void afficherMoyenDeTransport(
     }
 }
 
-static void saisirVille(
-    char *ville,
+static string saisirVille(
     unsigned int maxLength,
-    const char *message = "Ville :")
+    const char *message = "Ville :",
+    bool vide = false)
 {
+    string choixVille;
     cout << message << " (taille max: " << maxLength << ")" << endl;
-    cin >> ville;
+    
+    while (!getline(cin, choixVille) || 
+    choixVille.size() > maxLength || 
+    (!vide && choixVille.size() == 0) ||
+    choixVille.find("|") != string::npos)
+    {
+        if (choixVille.find("|") != string::npos)
+        {
+            cerr << "La ville ne peut pas contenir le caractère '|'" << endl;
+        }
+        else 
+        {
+            cerr << "La ville doit contenir moins de " << maxLength 
+                << " caractères";
+            if (!vide)
+            {
+                cerr << " et ne pas être une chaîne vide.";
+            }
+            cerr << " Veuillez réessayer." << endl;
+        }
+        
+        if (!cin) {
+            cin.clear();
+        }
+    }
+
+    return choixVille;
 }
 
 static void saisirMoyenDeTransport(
@@ -98,7 +124,14 @@ static void saisirMoyenDeTransport(
     afficherMoyenDeTransport(MARCHE);
     cout << endl;
 
-    cin >> choixTransport;
+    while (!(cin >> choixTransport) || (1 > choixTransport || choixTransport > 6))
+    {
+        cerr << "Le choix doit être un nombre compris entre 1 et 6. Veuillez réessayer." << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     switch (choixTransport)
     {
@@ -120,9 +153,6 @@ static void saisirMoyenDeTransport(
     case (6):
         leMoyen = MARCHE;
         break;
-    default:
-        leMoyen = TRAIN;
-        break;
     }
 }
 
@@ -134,17 +164,17 @@ static void afficherCatalogue(Catalogue &leCatalogue)
 static void ajouterTrajetSimple(Catalogue &leCatalogue)
 {
     moyenDeTransport leMoyenDeTransport;
-    char villeDepart[TAILLE_MAX_VILLE + 1];
-    char villeArrivee[TAILLE_MAX_VILLE + 1];
+    string villeDepart;
+    string villeArrivee;
 
-    saisirVille(villeDepart, TAILLE_MAX_VILLE, "Ville de départ :");
-    saisirVille(villeArrivee, TAILLE_MAX_VILLE, "Ville d'arrivée :");
+    villeDepart = saisirVille(TAILLE_MAX_VILLE, "Ville de départ :");
+    villeArrivee = saisirVille(TAILLE_MAX_VILLE, "Ville d'arrivée :");
     saisirMoyenDeTransport(leMoyenDeTransport, "Moyen de transport :");
 
     leCatalogue.AjouterTrajet(
         new TrajetSimple(
-            villeDepart,
-            villeArrivee,
+            villeDepart.c_str(),
+            villeArrivee.c_str(),
             leMoyenDeTransport));
 }
 
@@ -152,28 +182,28 @@ static void ajouterTrajetCompose(Catalogue &leCatalogue)
 {
     CollectionTrajets trajets;
     moyenDeTransport leMoyenDeTransport;
-    char villeDepart[TAILLE_MAX_VILLE + 1];
-    char villeArrivee[TAILLE_MAX_VILLE + 1];
+    string villeDepart;
+    string villeArrivee;
 
-    saisirVille(villeDepart, TAILLE_MAX_VILLE, "Ville de départ :");
+    villeDepart = saisirVille(TAILLE_MAX_VILLE, "Ville de départ :");
 
     while (true)
     {
-        saisirVille(villeArrivee, TAILLE_MAX_VILLE,
-                    "Ville suivante (tapez `stop` pour arrêter) :");
+        villeArrivee = saisirVille(TAILLE_MAX_VILLE,
+                    "Ville suivante (Laisser vide pour arrêter) :", true);
 
-        if (strcmp(villeArrivee, "stop") == 0)
+        if (villeArrivee == "")
             break;
 
         saisirMoyenDeTransport(leMoyenDeTransport, "Moyen de transport :");
 
         trajets.AjouterTrajet(
             new TrajetSimple(
-                villeDepart,
-                villeArrivee,
+                villeDepart.c_str(),
+                villeArrivee.c_str(),
                 leMoyenDeTransport));
 
-        strcpy(villeDepart, villeArrivee);
+        villeDepart = villeArrivee;
     }
 
     if (trajets.NombreDeTrajets() > 0)
@@ -183,14 +213,14 @@ static void ajouterTrajetCompose(Catalogue &leCatalogue)
 
 static void rechercherTrajet(Catalogue &leCatalogue)
 {
-    char villeDepart[TAILLE_MAX_VILLE + 1];
-    char villeArrivee[TAILLE_MAX_VILLE + 1];
+    string villeDepart;
+    string villeArrivee;
 
-    saisirVille(villeDepart, TAILLE_MAX_VILLE, "Ville de départ :");
-    saisirVille(villeArrivee, TAILLE_MAX_VILLE, "Ville d'arrivée :");
+    villeDepart = saisirVille(TAILLE_MAX_VILLE, "Ville de départ :");
+    villeArrivee = saisirVille(TAILLE_MAX_VILLE, "Ville d'arrivée :");
 
     CollectionTrajets *trajetsTrouves(
-        leCatalogue.Rechercher(villeDepart, villeArrivee));
+        leCatalogue.Rechercher(villeDepart.c_str(), villeArrivee.c_str()));
 
     cout << "Résultat : " << endl;
     for (unsigned int i(1); i <= trajetsTrouves->NombreDeTrajets(); i++)
@@ -205,16 +235,20 @@ static void rechercherTrajet(Catalogue &leCatalogue)
 
 static void rechercherCompletTrajet(Catalogue &leCatalogue)
 {
-    char villeDepart[TAILLE_MAX_VILLE + 1];
-    char villeArrivee[TAILLE_MAX_VILLE + 1];
+    string villeDepart;
+    string villeArrivee;
 
-    saisirVille(villeDepart, TAILLE_MAX_VILLE, "Ville de départ :");
-    saisirVille(villeArrivee, TAILLE_MAX_VILLE, "Ville d'arrivée :");
+    villeDepart = saisirVille(TAILLE_MAX_VILLE, "Ville de départ :");
+    villeArrivee = saisirVille(TAILLE_MAX_VILLE, "Ville d'arrivée :");
 
     CollectionTrajets **trajetsTrouves;
     unsigned int nbTrajetsTrouves;
 
-    leCatalogue.RechercherComplet(villeDepart, villeArrivee, trajetsTrouves, nbTrajetsTrouves);
+    leCatalogue.RechercherComplet(
+        villeDepart.c_str(), 
+        villeArrivee.c_str(), 
+        trajetsTrouves, 
+        nbTrajetsTrouves);
 
     // Affichage des résultats
     cout << "Résultat : " << endl;
@@ -241,6 +275,7 @@ static void rechercherCompletTrajet(Catalogue &leCatalogue)
 static unsigned int selectionMethode()
 {
     unsigned int choixMethode;
+    
     cout << "Choisir le type de filtre :" << endl;
     cout << "\t1. Tous les trajets" << endl;
     cout << "\t2. Par type de trajet" << endl;
@@ -249,7 +284,7 @@ static unsigned int selectionMethode()
 
     while (!(cin >> choixMethode) || (1 > choixMethode || choixMethode > 4))
     {
-        cout << "Le choix de l'option doit être un entier, compris entre 1 et 4. Veuillez réessayer" << endl;
+        cerr << "Le choix de l'option doit être un entier compris entre 1 et 4. Veuillez réessayer :" << endl;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
@@ -268,7 +303,7 @@ static unsigned int selectionTypeTrajet()
 
     while (!(cin >> choixTypeTrajet) || (1 > choixTypeTrajet || choixTypeTrajet > 2))
     {
-        cout << "Le choix de l'option doit être un entier, compris entre 1 et 2. Veuillez réessayer" << endl;
+        cerr << "Le choix de l'option doit être un entier compris entre 1 et 2. Veuillez réessayer :" << endl;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
@@ -276,65 +311,83 @@ static unsigned int selectionTypeTrajet()
     return choixTypeTrajet-1;
 }
 
-static unsigned int selectionIndice()
+static unsigned int selectionIndice(
+    unsigned int min, 
+    unsigned int max, 
+    const char * message)
 {
-    unsigned int indicePremierTrajet;
-    cout << "\tIndice du premier trajet :" << endl;
-    while (!(cin >> indicePremierTrajet))
+    unsigned int indice;
+    cout << message << " (entre " << min << " et " << max << ") :" << endl;
+    while (!(cin >> indice) || indice < min || indice > max)
     {
-        cout << "L'indice indiqué doit être un entier positif, veuillez réessayer" << endl;
+        cerr << "L'indice indiqué doit être un entier positif compris entre " 
+        << min << " et " << max << ", veuillez réessayer" << endl;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    return indicePremierTrajet;
+    return indice;
 }
 
-static unsigned int selectionNombreTrajet()
+static unsigned int selectionIndice(
+    const char * message)
 {
-    unsigned int nombreTrajet;
-    cout << "\tNombre de trajets :" << endl;
-    while (!(cin >> nombreTrajet))
+    unsigned int indice;
+    cout << message << " :" << endl;
+    while (!(cin >> indice))
     {
-        cout << "L'indice indiqué doit être un entier positif, veuillez réessayer" << endl;
+        cerr << "L'indice indiqué doit être un entier positif, veuillez réessayer :" << endl;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    return nombreTrajet;
-}
-
-static string selectionVille(const char *message)
-{
-    string choixVille;
-    cout << message << endl;
-    while (!getline(cin, choixVille) || choixVille.size() > TAILLE_MAX_VILLE)
-    {
-        cout << "La ville doit contenir moins de 50 caractères. Veuillez réessayer" << endl;
-    }
-    return choixVille;
+    return indice;
 }
 
 static ofstream ecritureFichier()
 {
-    string fileName;
+
+    ofstream fichier;
+    string filename;
     cout << "Préciser le nom du fichier à utiliser pour sauvegarder le catalogue:" << endl;
 
-    cin >> fileName;
+    if (!getline(cin, filename))
+    {
+        cerr << "Erreur lors de la lecture du nom de fichier " << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return fichier;
+    }
 
-    ofstream fichier(fileName);
+    fichier.open(filename);
+    if (!fichier.is_open())
+    {
+        cerr << "Impossible d'ouvrir le fichier " << filename << endl;
+    }
 
     return fichier;
 }
 
 static ifstream lectureFichier()
 {
-    string fileName;
+    ifstream fichier;
+    string filename;
     cout << "Préciser le nom du fichier à utiliser pour charger le catalogue:" << endl;
 
-    cin >> fileName;
+    if (!getline(cin, filename))
+    {
+        cerr << "Erreur lors de la lecture du nom de fichier " << endl;
 
-    ifstream fichier(fileName);
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return fichier;
+    }
+
+    fichier.open(filename);
+    if (!fichier.is_open())
+    {
+        cerr << "Impossible d'ouvrir le fichier " << filename << endl;
+    }
 
     return fichier;
 }
@@ -345,15 +398,11 @@ static void chargerCatalogue(Catalogue &leCatalogue)
     string choixVilleDepart;
     string choixVilleArrivee;
 
-    ifstream fichier;
-    do
+    ifstream fichier = lectureFichier();
+    if (!fichier.is_open()) 
     {
-        fichier = lectureFichier();
-        if (!fichier.is_open())
-        {
-            cout << "Erreur à l'ouverture du fichier, veuillez réessayer." << endl;
-        }
-    } while (fichier.fail());
+        return;
+    }
 
     choixMethode = selectionMethode();
 
@@ -368,17 +417,20 @@ static void chargerCatalogue(Catalogue &leCatalogue)
         leCatalogue.Charger(fichier, typeTrajet(choixTypeTrajet));
         break;
     case 3:
-        choixVilleDepart = selectionVille("Ville de départ : (* Pour tous)");
-        choixVilleArrivee = selectionVille("Ville d'arrivée : (* Pour tous)");
+        choixVilleDepart = saisirVille(TAILLE_MAX_VILLE, "Ville de départ : (Laisser vide pour toutes)", true);
+        choixVilleArrivee = saisirVille(TAILLE_MAX_VILLE, "Ville d'arrivée : (Laisser vide pour toutes)", true);
         leCatalogue.Charger(fichier, choixVilleDepart.c_str(), choixVilleArrivee.c_str());
         break;
     case 4:
-        int indicePremierTrajet, nombreTrajet;
-        indicePremierTrajet = selectionIndice();
-        nombreTrajet = selectionNombreTrajet();
-        leCatalogue.Charger(fichier, indicePremierTrajet, nombreTrajet);
+        unsigned int indicePremier = 1;
+        unsigned int indiceSecond = leCatalogue.NombreDeTrajets();
+        indicePremier = selectionIndice("Borne inférieure (incluse)");
+        indiceSecond = selectionIndice("Borne supérieure (incluse)");
+        leCatalogue.Charger(fichier, indicePremier, indiceSecond);
         break;
     }
+
+    fichier.close();
 }
 
 static void sauvegarderCatalogue(Catalogue &leCatalogue)
@@ -387,15 +439,11 @@ static void sauvegarderCatalogue(Catalogue &leCatalogue)
     string choixVilleDepart;
     string choixVilleArrivee;
 
-    ofstream fichier;
-    do
+    ofstream fichier = ecritureFichier();
+    if (!fichier.is_open()) 
     {
-        fichier = ecritureFichier();
-        if (!fichier.is_open())
-        {
-            cout << "Erreur à l'ouverture du fichier, veuillez réessayer." << endl;
-        }
-    } while (fichier.fail());
+        return;
+    }
 
     choixMethode = selectionMethode();
 
@@ -410,17 +458,20 @@ static void sauvegarderCatalogue(Catalogue &leCatalogue)
         leCatalogue.Sauvegarde(fichier, typeTrajet(choixTypeTrajet));
         break;
     case 3:
-        choixVilleDepart = selectionVille("Ville de départ : (* Pour tous)");
-        choixVilleArrivee = selectionVille("Ville d'arrivée : (* Pour tous)");
+        choixVilleDepart = saisirVille(TAILLE_MAX_VILLE, "Ville de départ : (Laisser vide pour toutes)", true);
+        choixVilleArrivee = saisirVille(TAILLE_MAX_VILLE, "Ville d'arrivée : (Laisser vide pour toutes)", true);
         leCatalogue.Sauvegarde(fichier, choixVilleDepart.c_str(), choixVilleArrivee.c_str());
         break;
     case 4:
-        int indicePremierTrajet, nombreTrajet;
-        indicePremierTrajet = selectionIndice();
-        nombreTrajet = selectionNombreTrajet();
-        leCatalogue.Sauvegarde(fichier, indicePremierTrajet, nombreTrajet);
+        unsigned int indicePremier = 1;
+        unsigned int indiceSecond = leCatalogue.NombreDeTrajets();
+        indicePremier = selectionIndice(indicePremier, indiceSecond, "Borne inférieure (incluse)");
+        indiceSecond = selectionIndice(indicePremier, indiceSecond, "Borne supérieure (incluse)");
+        leCatalogue.Sauvegarde(fichier, indicePremier, indiceSecond);
         break;
     }
+
+    fichier.close();
 }
 
 //////////////////////////////////////////////////////////////////  PUBLIC
@@ -428,7 +479,7 @@ static void sauvegarderCatalogue(Catalogue &leCatalogue)
 //---------------------------------------------------- Fonctions publiques
 int main()
 {
-    int choixMenu;
+    unsigned int choixMenu;
     Catalogue leCatalogue;
 
     while (true)
@@ -443,11 +494,15 @@ int main()
         cout << "\t7. Sauvegarder un catalogue" << endl;
         cout << "\t0. Quitter" << endl;
 
-        cin >> choixMenu;
-        if (cin.eof())
+        if (!(cin >> choixMenu) || choixMenu < 0 || choixMenu > 7)
         {
-            choixMenu = 0;
+            cerr << "Le choix de l'option doit être un entier, compris entre 0 et 7. Veuillez réessayer" << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
         }
+
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         switch (choixMenu)
         {

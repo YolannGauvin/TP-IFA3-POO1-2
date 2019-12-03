@@ -1,13 +1,24 @@
 Format de fichier :
-(
-(S ou C)|VilleDepart|VilleArrivée|(Moyen ou nbrTrajet)
-) Tant qu'il y a une ligne
+==================
 
-Format de ville : caractères Européens et chaine non vide
+Pour chaque trajet on a:
+  - le type de trajet (caractère 'S' ou 'C') ;
+  - la ville de départ (comprenant des caractères européens) ;
+  - la ville d'arrivée (comprenant des caractères européens) ;
+  - un nombre entier positif représentant :
+    - pour un trajet simple, le moyen de transport (compris entre 0 et 6) ;
+    - pour un trajet complet, le nombre de trajet composant ce trajet complet.
 
-Format de moyen ou nombre de trajet: entier positif (inférieur à la taille de l'énum pour le moyen)
+Chaque élément d'un trajet est séparé par le caractère '|'.
+Chaque trajet est séparé par un retour à la ligne.
 
-Format de type de trajet : S ou C
+Pour résumé, pour chaque trajet on a :
+(S ou C)|VilleDepart|VilleArrivée|(Moyen ou NbrDeTrajet)
+
+Format de ville : caractères européens et chaine non vide
+Format de nombre de trajet: entier positif
+Format d'un moyen de transport : entier positif compris entre 0 et 6. Dans l'ordre : TRAIN, AUTO, BATEAU, AVION, VELO, MARCHE 
+Format de type de trajet : caractère 'S' ou 'C'
 
 
 DEMO
@@ -18,6 +29,156 @@ S|Lyon|Marseille|3
 S|Marseille|Paris|2
 S|Lyon|Paris|0
 ------------------------------
+
+Gestion d'erreur lors de la lecture d'un fichier :
+-----------------------------------------------
+La gestion d'erreur lors de la lecture d'un fichier de sauvegarde d'un catalogue est assez basique.
+Le programme vérifie simplement si le format des éléments qui composent le trajet est correct. 
+Si l'un des éléments n'est pas dans le format attendu, on ne traite pas ce trajet et on passe directement au trajet suivant (ligne suivante).
+
+
+Spécifications
+==============
+
+Menu principal :
+---------------
+
+Un premier menu s'affiche à l'utilisateur et lui demande de choisir entre les options suivantes :
+  1 - Afficher le catalogue
+  2 - Ajouter un trajet simple
+  3 - Ajouter un trajet composé
+  4 - Rechercher un trajet
+  5 - Rechercher un trajet (avancé)
+  6 - Charger un catalogue
+  7 - Sauvegarder un catalogue
+  0 - Quitter
+
+Une option est choisi en saissant son numéro associé.
+
+
+Ajouter un trajet simple :
+-------------------------
+
+L'utilisateur doit saisir dans l'ordre la ville de départ, la ville d'arrivée et le moyen de transport
+
+Ajouter un trajet composé :
+--------------------------
+
+L'utilisateur doit d'abord saisir une ville de départ.
+Ensuite, tant qu'il ne saisie pas une chaîne vide pour le nom de la ville suivante, il doit saisir :
+  - le nom de la ville suivante ;
+  - le moyen de transport pour aller vers la ville suivantes.
+
+Rechercher un trajet (avancé) :
+------------------------------
+
+L'utilisateur doit saisir dans l'ordre la ville de départ et la ville d'arrivée.
+
+Charger ou sauvegarde un catalogue :
+-----------------------------------
+
+Après sélection d'une des deux options (chargement ou sauvegarde), on demande à l'utilisateur de saisir le chemin d'accès au fichier à utiliser pour cette option
+
+On demande ensuite de choisir un des quatres filtres ci-dessous :
+1 - Tous les trajets
+2 - Par type de trajet
+3 - Par ville de départ et/ou ville d'arrivée
+4 - Par intervalle
+
+Un filtre est choisi en saisissant son numéro associé.
+
+Si le filtre choisi est le numéro 1, l'utilisateur n'a rien besoin de saisir.
+
+Si le filtre choisi est le numéro 2, l'utilisateur doit choisir entre deux options :
+1 - Simple
+2 - Composé
+
+Si le filtre choisi est le numéro 3, l'utilisateur doit saisir une ville de départ et une ville d'arrivée. L'une ou l'autre peut être vide. Dans ce cas, aucun filtre ne sera appliqué.
+
+Si le filtre choisi est le numéro 4, l'utilisateur doit saisir une borne inférieure et une borne supérieure.
+
+Saisie d'une ville :
+-------------------
+Pour la saisie d'une ville, les erreurs gérées et affichées sont les suivantes :
+  - la taille de la chaîne de caractères dépasse la taille maximale indiquée ;
+  - la chaîne de caractères est vide (sauf si explicitement autorisée) ;
+  - la ville contient le caractère '|'.
+
+Lorsqu'une erreur pour la saisie d'une ville est gérée, on demande à l'utilisateur de saisir à nouveau le nom de la ville.
+
+Pour la saisie d'une ville, tous les caractères sont pris en compte jusqu'au retour à la ligne. 
+Les autres caractères blancs (espaces, tabulation, etc.) avant et après le nom de ville seront donc aussi intégrés dans son nom global.
+
+Lorsqu'une chaîne vide est autorisée, il suffit de saisir un retour à la ligne sans caractère avoir saisi de caractères.
+
+
+Saisie d'un moyen de transport :
+------------------------------
+
+Pour la saisie d'un moyen de transport, les erreurs gérés et affichées sont les suivantes :
+  - l'utilisateur n'a pas saisie un entier positif ;
+  - le nombre saisie n'est pas entre 1 et le nombre de moyen de transport disponible.
+
+Lorsqu'une erreur pour la saisie d'un moyen de transport est gérée, on demande à l'utilisateur de saisir à nouveau le moyen de transport
+
+Que la saisie soit réussie ou non, le programme ignore le reste de la ligne.
+
+Saisie d'une option :
+-------------------
+
+Pour la saisie d'une option dans un menu, les erreurs gérés et affichées sont les suivantes :
+  - l'utilisateur n'a pas saisie un entier positif ;
+  - le nombre saisie n'est pas entre 1 et le nombre d'options disponibles.
+
+Lorsqu'une erreur pour la saisie d'une option est gérée, on demande à l'utilisateur de saisir à nouveau le moyen de transport
+
+Que la saisie soit réussie ou non, le programme ignore le reste de la ligne.
+
+Saisie d'un chemin d'accès à un fichier :
+---------------------------------------
+
+Pour la saisie d'un chemin d'accès à un fichier, les erreurs gérés et affichées sont les suivantes :
+  - le chemin d'accès n'est pas valide ;
+  - le fichier n'existe pas (dans le cas d'un chargement de catalogue) ;
+  - le fichier ne peut pas être ouvert (problème de droits d'accès, etc.).
+
+Pour la saisie d'un chemin d'accès, tous les caractères sont pris en compte jusqu'au retour à la ligne.
+
+Lorsqu'une erreur survient lors de la saisie, le programme revient directement au menu principal afin d'éviter de bloquer l'utilisateur dans ce menu dans le cas où aucun fichier ne peut être ouvert.
+
+Si l'utilisateur décide de sauvegarder un catalogue dans un fichier déjà existant, le programme remplace le contenu du fichier avec le catalogue sauvegardé sans aucun avertissement.
+
+Le fichier est ouvert (ou créé) dès lors qu'il n'y a pas eu d'erreur et est fermé lorsque le chargement ou la sauvegarde est fini.
+
+Saisie d'une borne :
+------------------
+
+Pour la saisie d'une borne d'un intervalle, les erreurs gérés et affichées sont les suivantes :
+  - l'utilisateur n'a pas saisie un entier positif ;
+  - le nombre saisie n'est pas inclus entre les bornes minimale et maximale (si indiquées).
+ 
+Lorsqu'une erreur pour la saisie d'une borne, on demande à l'utilisateur de saisir à nouveau la borne.
+
+Que la saisie soit réussie ou non, le programme ignore le reste de la ligne.
+
+
+Affichage des erreurs :
+---------------------
+
+Toutes les erreurs sont affichées sur la sortie standard d'erreur du système afin de pouvoir facilement rediriger les erreurs dans un fichier à part
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Gestion des fichiers :
 Noms des fichiers saisis par l'utilisateur
